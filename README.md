@@ -1,5 +1,7 @@
 # AeroGrid AI — Offline Field Service Assistant
 
+![AeroGrid AI Dashboard Preview](docs/preview.png)
+
 A zero-latency, fully local AI decision support tool engineered for renewable energy field technicians (wind & solar) working in off-grid environments with no internet connectivity.
 
 The system processes technical manuals, high-voltage safety SOPs, and fault code databases on-device using local Vector Embeddings and Ollama (Microsoft Phi-3).
