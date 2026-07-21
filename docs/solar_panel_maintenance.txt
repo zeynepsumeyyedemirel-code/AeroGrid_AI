@@ -1,0 +1,9 @@
+# Solar Power Plant (PV) Field Maintenance Guide
+
+## Fault Code: PV-404 (Inverter String Power Loss)
+- **Symptom:** One or more strings are generating zero power output.
+- **Safety Warning:** Solar panels continuously generate direct current (DC) during daylight hours. Do not touch DC cables without insulated safety gloves.
+- **Corrective Actions:**
+  1. Verify that the inverter DC isolator switch is not in the OFF position.
+  2. Perform a thermal camera scan on panels to detect hot spots.
+  3. Replace burned or corroded MC4 connectors with new ones.

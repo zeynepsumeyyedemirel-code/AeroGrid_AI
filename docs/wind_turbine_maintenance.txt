@@ -1,0 +1,15 @@
+# Wind Turbine Field Maintenance and Troubleshooting Guide
+
+## Fault Code: E-301 (Generator Overheating Fault)
+- **Symptom:** Generator temperature exceeded 85°C. System automatically shut down.
+- **Safety Warning:** Before intervention, disconnect turbine power from the main breaker and apply Lockout/Tagout (LOTO) procedures. High voltage hazard present.
+- **Corrective Actions:**
+  1. Inspect cooling fan fuses and relays.
+  2. Check coolant fluid levels via the control panel.
+  3. Clean dust or debris accumulation from fan blades.
+
+## Fault Code: W-102 (Wind Vane Sensor Drift)
+- **Symptom:** Turbine is not aligned perpendicularly to the wind. Rotation speed and power generation are low.
+- **Corrective Actions:**
+  1. Disconnect the anemometer cable and check for corrosion.
+  2. Manually calibrate the sensor to the zero position using the control box.s
