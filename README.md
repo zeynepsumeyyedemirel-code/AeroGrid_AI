@@ -1,106 +1,159 @@
 # 🛸 AeroGrid AI — Enterprise Renewable Energy Maintenance RAG Engine
 
-AeroGrid AI is a production-oriented, containerized **Retrieval-Augmented Generation (RAG)** system designed to support renewable energy field technicians in wind turbine and solar panel maintenance workflows.
+A production-oriented, containerized **Retrieval-Augmented Generation (RAG)** system designed for renewable energy maintenance operations.
+
+AeroGrid AI assists wind turbine and solar panel field technicians by retrieving verified technical knowledge from maintenance documentation and generating grounded AI responses using local LLM inference.
 
 The system combines:
 
-* Semantic vector retrieval
+* Document intelligence
+* Semantic retrieval
 * Neural reranking
-* Local LLM inference
+* Local LLM generation
 * Security guardrails
-* Incremental document indexing
 * Automated evaluation
 * Containerized deployment
 
-to provide accurate, grounded, and context-aware maintenance assistance from technical documentation.
+to provide reliable AI assistance for industrial maintenance workflows.
+
+---
+
+# 🌍 Problem
+
+Renewable energy technicians often work with hundreds of pages of:
+
+* Equipment manuals
+* Safety procedures
+* Inspection protocols
+* Maintenance guidelines
+* Troubleshooting documents
+
+Finding the correct procedure during field operations can be slow and error-prone.
+
+AeroGrid AI reduces this complexity by providing an AI-powered maintenance assistant that:
+
+✅ Retrieves relevant procedures instantly
+✅ Generates answers grounded in documentation
+✅ Reduces hallucination risk
+✅ Preserves document traceability
+✅ Supports privacy-focused local deployment
 
 ---
 
 # 🚀 Key Features
 
-## 🔎 Two-Stage Retrieval Pipeline
+## 🔎 Advanced Two-Stage Retrieval Pipeline
 
-AeroGrid AI implements a high-precision retrieval architecture:
+AeroGrid AI uses a high-precision retrieval architecture:
 
-* **Stage 1:** Semantic search using vector embeddings and ChromaDB
-* **Stage 2:** Cross-Encoder neural reranking for improved relevance
+### Stage 1 — Semantic Retrieval
 
-This approach reduces irrelevant context and improves answer accuracy.
+Technical documents are converted into vector embeddings:
+
+```
+sentence-transformers/all-MiniLM-L6-v2
+```
+
+Relevant document chunks are retrieved using ChromaDB similarity search.
 
 ---
 
-## 📚 Incremental Document Ingestion
+### Stage 2 — Neural Reranking
+
+Retrieved candidates are refined using:
+
+```
+cross-encoder/ms-marco-MiniLM-L-6-v2
+```
+
+The Cross Encoder evaluates query-document relationships and selects the most relevant context.
+
+---
+
+## 📚 Incremental Knowledge Ingestion
 
 The ingestion pipeline uses SHA-256 document fingerprinting.
 
 Benefits:
 
-* Detects modified documents
-* Prevents unnecessary re-embedding
-* Reduces processing time
-* Maintains consistent vector storage
+* Detects changed documents
+* Avoids unnecessary re-processing
+* Maintains efficient indexing
+* Supports scalable document updates
+
+Pipeline:
+
+```
+Documents
+    ↓
+SHA-256 Validation
+    ↓
+Chunking
+    ↓
+Embedding Generation
+    ↓
+ChromaDB Storage
+```
 
 ---
 
-## 🧠 Local LLM Generation
+# 🧠 Local AI Generation
 
-Powered by Ollama local inference.
+AeroGrid AI uses local inference through:
+
+```
+Ollama + llama3.2
+```
 
 Advantages:
 
+* No external API dependency
 * Privacy-focused deployment
 * Offline-capable architecture
-* No external API dependency
 * Suitable for industrial environments
 
 ---
 
-## 🛡️ Security Guardrails
+# 🛡️ Safety & Reliability
 
-The system includes:
+Industrial AI systems require strong reliability mechanisms.
 
-* Prompt injection detection
-* Context grounding rules
-* Hallucination prevention
-* `INSUFFICIENT_CONTEXT` fallback behavior
+AeroGrid AI implements:
 
-The model only generates answers based on retrieved maintenance information.
+## Prompt Injection Defense
+
+The system prevents malicious instructions from overriding the AI behavior.
+
+Example policy:
+
+```
+Only answer using retrieved maintenance context.
+
+If sufficient information is unavailable:
+return INSUFFICIENT_CONTEXT.
+```
 
 ---
 
-## ⚡ Production-Oriented Reliability
+## Hallucination Prevention
 
-Implemented reliability mechanisms:
+Responses are grounded through:
+
+* Retrieved document context
+* Source references
+* Strict generation rules
+
+---
+
+## Production Reliability
+
+Implemented:
 
 * Persistent vector storage
 * Lazy model initialization
-* Structured application logging
+* Structured logging
 * Timeout handling
 * Exception management
-
----
-
-## 🐳 Containerized Deployment
-
-The complete environment is reproducible using:
-
-* Docker
-* Docker Compose
-
----
-
-# 📊 Evaluation & Benchmark Results
-
-| Metric                | Result                                                      |
-| --------------------- | ----------------------------------------------------------- |
-| Evaluation Dataset    | 15 Synthetic Field Maintenance Protocols & Safety Documents |
-| Embedding Model       | sentence-transformers/all-MiniLM-L6-v2                      |
-| Reranker Model        | cross-encoder/ms-marco-MiniLM-L-6-v2                        |
-| LLM Runtime           | Ollama (llama3.2)                                           |
-| Retrieval Metric      | Precision@3                                                 |
-| Retrieval Precision@3 | 100.00%                                                     |
-| Unit Tests            | 5/5 PASSED                                                  |
-| Average Query Latency | ~450ms                                                      |
 
 ---
 
@@ -109,90 +162,138 @@ The complete environment is reproducible using:
 ```mermaid
 graph TD
 
-    User[User / Client] -->|Submit Query| Guardrail[Prompt Injection Guardrail]
+User[Field Technician] --> Guardrail[Security Guardrails]
 
-    subgraph Security_Layer [Security and Validation]
-        Guardrail -->|Safe Query| Pipeline[RAG Orchestrator]
-        Guardrail -->|Injection Detected| Block[Reject Query and Log Event]
-    end
+Guardrail --> Pipeline[RAG Orchestrator]
 
-    subgraph Ingestion_Pipeline [Incremental Document Indexing]
-        Docs[Technical Manuals and FAQs] -->|SHA-256 Hash Check| SHA256{Document Changed?}
-        SHA256 -->|Yes| Chunking[Text Chunking]
-        SHA256 -->|No| Skip[Skip Ingestion]
 
-        Chunking --> Embeddings[Bi Encoder Embeddings]
-        Embeddings --> Store[(ChromaDB Vector Store)]
-    end
+subgraph Ingestion
 
-    subgraph Retrieval_Pipeline [Two Stage Retrieval Engine]
+Docs[Maintenance Documents]
 
-        Pipeline -->|Vector Search| Store
-        Store --> Candidates[Candidate Document Chunks]
+Docs --> SHA[SHA-256 Change Detection]
 
-        Candidates --> Reranker[Cross Encoder Reranker]
+SHA --> Chunk[Document Chunking]
 
-        Reranker --> Ranked[Top Ranked Context]
+Chunk --> Embed[Embedding Model]
 
-    end
+Embed --> DB[(ChromaDB Vector Store)]
 
-    subgraph Generation_Layer [Local LLM Generation]
+end
 
-        Ranked --> Context[Grounded Prompt Context]
 
-        Context --> LLM[Ollama Local LLM]
+subgraph Retrieval
 
-        LLM --> Response[Generated Response]
+Pipeline --> DB
 
-    end
+DB --> Retrieve[Semantic Retrieval]
 
-    Response -->|Answer With Citations| User
+Retrieve --> Rerank[Cross Encoder Reranking]
+
+Rerank --> Context[Ranked Context]
+
+end
+
+
+subgraph Generation
+
+Context --> Prompt[Grounded Prompt]
+
+Prompt --> LLM[Ollama llama3.2]
+
+LLM --> Answer[AI Maintenance Response]
+
+end
+
+
+Answer --> User
 ```
 
 ---
 
-# 🔍 Retrieval Pipeline Details
+# 🔍 RAG Pipeline Explained
 
-AeroGrid AI follows a multi-stage retrieval strategy designed for accuracy and reliability.
+## 1. Document Ingestion
 
-## Stage 1 — Semantic Search
+Maintenance documentation is processed through:
 
-Technical documents are transformed into vector embeddings using:
-
-```
-sentence-transformers/all-MiniLM-L6-v2
-```
-
-The system performs similarity search against ChromaDB to retrieve relevant maintenance knowledge.
+* Document loading
+* Text chunking
+* SHA-256 validation
+* Embedding generation
+* Vector indexing
 
 ---
 
-## Stage 2 — Neural Reranking
+## 2. Retrieval
 
-Retrieved document candidates are processed through:
+When a technician asks a question:
+
+Example:
 
 ```
-cross-encoder/ms-marco-MiniLM-L-6-v2
+How should I inspect overheating problems in a wind turbine gearbox?
 ```
 
-The Cross-Encoder evaluates query-document relationships and ranks the most relevant passages.
+The system:
+
+1. Converts the query into embeddings
+2. Performs vector similarity search
+3. Retrieves relevant maintenance chunks
+4. Sends candidates to reranking
 
 ---
 
-## Stage 3 — Grounded Generation
+## 3. Reranking
 
-The selected context is injected into the local LLM.
+The Cross Encoder improves retrieval quality by evaluating:
 
-Generation rules:
+```
+Question ↔ Document Relationship
+```
 
-* Use only retrieved context
-* Avoid unsupported information
-* Provide source references
-* Return `INSUFFICIENT_CONTEXT` when evidence is unavailable
+This reduces irrelevant context before generation.
 
 ---
 
-# 🗂️ Project Architecture
+## 4. Grounded Generation
+
+The local LLM receives:
+
+```
+User Question
++
+Retrieved Maintenance Context
++
+Safety Instructions
+```
+
+and generates a verified response.
+
+---
+
+# 📊 Evaluation & Benchmark Results
+
+Evaluation Dataset:
+
+```
+15 Synthetic Renewable Energy
+Field Maintenance Protocols
+```
+
+| Metric                    | Result          |
+| ------------------------- | --------------- |
+| Retrieval Metric          | Precision@3     |
+| Precision@3               | 100.00%         |
+| Unit Tests                | 5/5 Passed      |
+| Average Retrieval Latency | ~450ms          |
+| Embedding Model           | MiniLM-L6-v2    |
+| Reranker                  | MS MARCO MiniLM |
+| LLM                       | Ollama llama3.2 |
+
+---
+
+# 🗂️ Project Structure
 
 ```
 AeroGrid_AI/
@@ -200,25 +301,32 @@ AeroGrid_AI/
 ├── app/
 
 │   ├── ingestion/
-│   │   └── Document processing and SHA-256 indexing
+│   │   └── Document processing and indexing
 
 │   ├── retrieval/
-│   │   └── Vector search and reranking pipeline
+│   │   └── Vector search and reranking
 
 │   ├── generation/
-│   │   └── Ollama LLM response generation
+│   │   └── Local LLM generation
 
 │   └── security/
-│       └── Prompt injection protection
+│       └── Guardrails and validation
+
 
 ├── documents/
-│   └── Maintenance manuals and safety protocols
+
+│   └── Maintenance protocols
+
 
 ├── tests/
-│   └── Automated Pytest validation
+
+│   └── Automated evaluation
+
 
 ├── logs/
-│   └── Structured application logs
+
+│   └── Application logs
+
 
 ├── Dockerfile
 
@@ -231,50 +339,9 @@ AeroGrid_AI/
 
 ---
 
-# 🛡️ Security & Reliability Design
-
-## Prompt Injection Defense
-
-The system applies strict grounding instructions:
-
-```
-Only answer using retrieved maintenance context.
-
-If sufficient information is unavailable:
-return INSUFFICIENT_CONTEXT.
-```
-
----
-
-## Timeout & Exception Handling
-
-Ollama inference requests include:
-
-* Execution timeout protection
-* Network exception handling
-* Detailed error logging
-
----
-
-## Enterprise Logging
-
-Application events are tracked through structured logs:
-
-```
-logs/app.log
-```
-
-Supported levels:
-
-* INFO
-* WARNING
-* ERROR
-
----
-
 # 🧪 Testing
 
-Run the automated test suite:
+Run:
 
 ```bash
 pytest tests/ -v
@@ -285,7 +352,7 @@ Validated components:
 ✅ Vector retrieval
 ✅ Similarity search
 ✅ Incremental indexing
-✅ SHA-256 change detection
+✅ SHA-256 validation
 ✅ Prompt injection handling
 ✅ Context validation
 
@@ -293,7 +360,7 @@ Validated components:
 
 # 🚀 Quick Start
 
-Clone the repository:
+Clone repository:
 
 ```bash
 git clone https://github.com/zeynepsumeyyedemirel-code/AeroGrid_AI.git
@@ -301,7 +368,7 @@ git clone https://github.com/zeynepsumeyyedemirel-code/AeroGrid_AI.git
 cd AeroGrid_AI
 ```
 
-Start the application:
+Run with Docker:
 
 ```bash
 docker compose up --build
@@ -309,9 +376,9 @@ docker compose up --build
 
 ---
 
-# 💡 Example Use Case
+# 💡 Example Scenario
 
-## Technician Query
+## Technician Question
 
 ```
 How should I inspect overheating problems in a wind turbine gearbox?
@@ -332,47 +399,91 @@ Wind Turbine Maintenance Protocol #03
 
 ---
 
-# 📈 Future Improvements
+# 🧩 Engineering Decisions
 
-Planned enhancements:
+## Why ChromaDB?
 
-* REST API layer using FastAPI
-* Authentication and Role-Based Access Control (RBAC)
-* AWS / GCP cloud deployment
-* Advanced RAG evaluation framework
-* Recall@K, MRR and Faithfulness metrics
-* Real-time sensor data integration
+ChromaDB provides:
+
+* Persistent local storage
+* Lightweight deployment
+* Simple vector retrieval workflow
+
+---
+
+## Why Cross Encoder Reranking?
+
+Vector search provides speed.
+
+Cross Encoder reranking improves:
+
+* Precision
+* Context relevance
+* Answer quality
+
+---
+
+## Why Local LLM?
+
+Local inference provides:
+
+* Data privacy
+* Offline capability
+* Industrial deployment flexibility
+
+---
+
+# 📈 Future Roadmap
+
+## Phase 1 — Core RAG
+
+✅ Retrieval pipeline
+✅ Local LLM generation
+✅ Evaluation framework
+
+## Phase 2 — Enterprise Features
+
+* FastAPI backend
+* Authentication
+* Role-Based Access Control
+* Cloud deployment
+
+## Phase 3 — Industrial Intelligence
+
+* Real-time turbine sensor integration
+* Predictive maintenance
 * Monitoring dashboard
+* Automated anomaly detection
 
 ---
 
 # 👩‍💻 Technical Stack
 
-| Component       | Technology                     |
-| --------------- | ------------------------------ |
-| Language        | Python 3.11+                   |
-| Vector Database | ChromaDB                       |
-| Embeddings      | Sentence Transformers          |
-| Reranker        | Cross Encoder                  |
-| LLM Runtime     | Ollama                         |
-| Testing         | Pytest                         |
-| Deployment      | Docker & Docker Compose        |
-| Logging         | Structured Application Logging |
+| Component       | Technology            |
+| --------------- | --------------------- |
+| Language        | Python 3.11+          |
+| RAG Framework   | Custom Pipeline       |
+| Vector Database | ChromaDB              |
+| Embeddings      | Sentence Transformers |
+| Reranker        | Cross Encoder         |
+| LLM Runtime     | Ollama                |
+| Testing         | Pytest                |
+| Deployment      | Docker Compose        |
+| Logging         | Structured Logging    |
 
 ---
 
 # 📌 Project Summary
 
-AeroGrid AI demonstrates an end-to-end production-oriented RAG workflow:
+AeroGrid AI demonstrates a complete enterprise-oriented RAG workflow:
 
-* Document ingestion
+* Industrial document ingestion
 * Incremental indexing
-* Vector retrieval
+* Semantic retrieval
 * Neural reranking
 * Local LLM generation
 * Security guardrails
 * Automated evaluation
 * Containerized deployment
 
-The project showcases practical AI engineering principles for building reliable enterprise knowledge assistants in renewable energy maintenance environments.
-
+The project showcases how modern AI engineering techniques can be applied to renewable energy maintenance operations.
