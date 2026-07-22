@@ -1,6 +1,3 @@
-CTRL + O
-Enter
-CTRL + X
 # 🛸 AeroGrid AI — Enterprise Renewable Energy Maintenance RAG Engine
 
 AeroGrid AI is a production-oriented Retrieval-Augmented Generation (RAG) system designed for renewable energy maintenance operations.
