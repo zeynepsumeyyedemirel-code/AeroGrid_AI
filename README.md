@@ -1,114 +1,31 @@
-# 🛸 AeroGrid AI — Enterprise Renewable Energy Maintenance RAG Engine
+# 🛸 AeroGrid AI
+## Enterprise Renewable Energy Maintenance RAG Platform
 
-AeroGrid AI is a production-oriented Retrieval-Augmented Generation (RAG) system designed for renewable energy maintenance operations.
+AeroGrid AI is an enterprise-oriented Retrieval-Augmented Generation (RAG) platform designed for renewable energy maintenance operations.
 
-The platform assists wind turbine and solar field technicians by retrieving verified maintenance knowledge and generating grounded AI responses using local LLM inference.
+The system assists wind turbine and solar field technicians by retrieving verified technical knowledge from maintenance documentation and generating grounded AI responses using local Large Language Models.
 
-The system combines:
-
-- Semantic document retrieval
-- Neural reranking
-- Local LLM generation
-- Security guardrails
-- Source-grounded answers
-- Persistent vector storage
-- FastAPI backend
-
-to provide reliable AI assistance for industrial maintenance workflows.
+AeroGrid AI combines document intelligence, semantic retrieval, neural reranking, local AI inference, security guardrails, and persistent vector storage to deliver reliable AI assistance for industrial maintenance workflows.
 
 ---
 
-# 🚀 System Overview
+# 🚀 Key Capabilities
 
-Renewable energy technicians work with large amounts of:
+## 🔎 Advanced Retrieval-Augmented Generation Pipeline
 
-- Equipment manuals
-- Fault code documentation
-- Safety procedures
-- Inspection protocols
-- Maintenance instructions
+AeroGrid AI implements a two-stage retrieval architecture:
 
-AeroGrid AI reduces troubleshooting time by providing an AI-powered maintenance assistant that:
+### 1. Semantic Retrieval
 
-✅ Retrieves relevant technical knowledge  
-✅ Generates documentation-grounded answers  
-✅ Provides source traceability  
-✅ Reduces hallucination risk  
-✅ Supports privacy-focused local deployment  
-
----
-
-# 🏗️ Architecture
-
-
-Technician Query
-|
-v
-FastAPI API Layer
-|
-v
-Security Guardrails
-|
-v
-Embedding Model
-(all-MiniLM-L6-v2)
-|
-v
-ChromaDB Vector Store
-|
-v
-Semantic Retrieval
-|
-v
-Cross Encoder Reranking
-(MS MARCO MiniLM)
-|
-v
-Context Assembly
-|
-v
-Ollama Local LLM
-(Phi-3)
-|
-v
-Grounded Maintenance Response
-
-
----
-
-# 🔎 RAG Pipeline
-
-## Document Ingestion
-
-Maintenance documents are processed through:
-
-- Document loading
-- Text chunking
-- Embedding generation
-- Vector indexing
-- Persistent storage
-
-Vector database:
-
-
-ChromaDB
-
-
----
-
-## Semantic Retrieval
-
-User queries are converted into embeddings using:
+Maintenance documents are transformed into vector embeddings using:
 
 
 sentence-transformers/all-MiniLM-L6-v2
 
 
-Relevant maintenance chunks are retrieved from the knowledge base.
+Relevant technical knowledge is retrieved from a persistent ChromaDB vector database.
 
----
-
-## Neural Reranking
+### 2. Neural Reranking
 
 Retrieved candidates are refined using:
 
@@ -116,23 +33,90 @@ Retrieved candidates are refined using:
 cross-encoder/ms-marco-MiniLM-L6-v2
 
 
-The reranker improves context relevance before generation.
+The reranking layer improves:
+
+- Context relevance
+- Retrieval precision
+- Answer quality
 
 ---
 
-## Grounded Generation
+# 🏭 Industrial Use Case
 
-The local LLM receives:
+Renewable energy technicians operate with large volumes of technical documentation:
+
+- Equipment manuals
+- Fault code descriptions
+- Safety procedures
+- Inspection protocols
+- Maintenance instructions
+
+Finding the correct procedure during field operations can be time-consuming.
+
+AeroGrid AI provides:
+
+✅ Fast technical knowledge retrieval  
+✅ Documentation-grounded responses  
+✅ Source traceability  
+✅ Reduced hallucination risk  
+✅ Privacy-focused local deployment  
+
+---
+
+# 🏗️ System Architecture
 
 
-User Question
-+
-Retrieved Maintenance Context
-+
-Safety Instructions
+Technician Query
 
+    |
+    v
 
-and generates a documentation-grounded response.
+FastAPI Backend
+
+    |
+    v
+
+Security Guardrails
+
+    |
+    v
+
+Embedding Model
+
+(all-MiniLM-L6-v2)
+
+    |
+    v
+
+ChromaDB Vector Database
+
+    |
+    v
+
+Semantic Retrieval
+
+    |
+    v
+
+Cross Encoder Reranking
+
+    |
+    v
+
+Context Assembly
+
+    |
+    v
+
+Local LLM Generation
+
+(Ollama + Phi-3)
+
+    |
+    v
+
+Grounded Maintenance Response
+
 
 ---
 
@@ -144,7 +128,7 @@ AeroGrid AI uses:
 Ollama + Phi-3
 
 
-Benefits:
+Advantages:
 
 - Local inference
 - Data privacy
@@ -160,7 +144,7 @@ Benefits:
 
 The system validates user input before generation.
 
-Policy:
+Generation policy:
 
 
 Only answer using retrieved maintenance context.
@@ -179,14 +163,16 @@ Implemented:
 ✅ Structured logging  
 ✅ Exception handling  
 ✅ Timeout management  
-✅ Source attribution  
 ✅ Context validation  
+✅ Source attribution  
 
 ---
 
-# 🔌 API
+# 🔌 API Interface
 
 ## Health Check
+
+Endpoint:
 
 
 GET /health
@@ -200,6 +186,9 @@ Example:
   "service": "AeroGrid AI"
 }
 Maintenance Query
+
+Endpoint:
+
 POST /query
 
 Request:
@@ -222,32 +211,31 @@ Current Knowledge Base:
 
 278 indexed maintenance chunks
 
-Pipeline:
-
-Semantic Retrieval
-        +
-Cross Encoder Reranking
-        +
-Local LLM Generation
-
 Validated Scenario:
 
 E-301 Generator Overheating Fault
 
-Result:
+Results:
 
-✅ Relevant maintenance procedure retrieved
+✅ Correct maintenance procedure retrieved
 ✅ Safety warnings included
 ✅ Corrective actions generated
 ✅ Source documents returned
 
+Pipeline:
+
+Semantic Retrieval
+        +
+Neural Reranking
+        +
+Local LLM Generation
 🗂️ Project Structure
 AeroGrid_AI/
 
 ├── src/
 │
 ├── api/
-│   └── FastAPI application
+│   └── FastAPI backend
 │
 ├── retrieval/
 │   └── ChromaDB retrieval pipeline
@@ -256,7 +244,7 @@ AeroGrid_AI/
 │   └── Local LLM integration
 │
 ├── security/
-│   └── Guardrails
+│   └── Safety guardrails
 │
 ├── documents/
 │   └── Maintenance knowledge base
@@ -291,7 +279,7 @@ Run API:
 
 uvicorn src.api.main:app --reload
 
-Swagger:
+Swagger documentation:
 
 http://127.0.0.1:8000/docs
 🧰 Technology Stack
@@ -305,6 +293,28 @@ LLM Runtime	Ollama
 Model	Phi-3
 Testing	Pytest
 Deployment	Docker
+💡 Engineering Decisions
+Why RAG?
+
+RAG architecture grounds AI responses in verified technical documentation and reduces hallucination risk.
+
+Why ChromaDB?
+Persistent local storage
+Lightweight deployment
+Suitable for industrial environments
+Why Neural Reranking?
+
+Vector retrieval provides speed.
+
+Cross Encoder reranking improves precision and context quality.
+
+Why Local LLM?
+
+Local inference provides:
+
+Data privacy
+Operational control
+Offline capability
 🔮 Future Roadmap
 Phase 1 — Core RAG
 
@@ -323,7 +333,7 @@ Predictive maintenance
 Automated anomaly detection
 👩‍💻 Project Summary
 
-AeroGrid AI demonstrates an enterprise-oriented RAG architecture for renewable energy maintenance.
+AeroGrid AI demonstrates an enterprise-grade RAG architecture for renewable energy maintenance operations.
 
 The project combines:
 
