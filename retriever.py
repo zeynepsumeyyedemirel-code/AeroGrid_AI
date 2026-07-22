@@ -17,19 +17,26 @@ class AeroGridRetriever:
             print(f"⚠️ Warning: '{self.docs_dir}' directory not found!")
             return
 
-        print(f"📂 Indexing documents inside '{self.docs_dir}'...")
-        for file_name in os.listdir(self.docs_dir):
-            if file_name.endswith(".txt"):
-                file_path = os.path.join(self.docs_dir, file_name)
-                with open(file_path, "r", encoding="utf-8") as f:
-                    content = f.read()
-                    # Metinleri paragraflara bölerek indeksliyoruz
-                    paragraphs = [p.strip() for p in content.split("\n\n") if p.strip()]
-                    for p in paragraphs:
-                        self.documents.append({
-                            "source": file_name,
-                            "text": p
-                        })
+        print(f"📂 Indexing documents inside '{self.docs_dir}' (including subdirectories)...")
+        
+        # os.walk kullanarak docs/ altındaki tüm klasörleri ve .txt dosyalarını tarıyoruz
+        for root, _, files in os.walk(self.docs_dir):
+            for file_name in files:
+                if file_name.endswith(".txt"):
+                    file_path = os.path.join(root, file_name)
+                    with open(file_path, "r", encoding="utf-8") as f:
+                        content = f.read()
+                        # Metinleri paragraflara bölerek indeksliyoruz
+                        paragraphs = [p.strip() for p in content.split("\n\n") if p.strip()]
+                        
+                        # Kaynak adı olarak göreceli yolu (relative path) alıyoruz (örn: wind_turbine/E-101-pitch-control.txt)
+                        rel_source = os.path.relpath(file_path, self.docs_dir)
+                        
+                        for p in paragraphs:
+                            self.documents.append({
+                                "source": rel_source,
+                                "text": p
+                            })
 
         if self.documents:
             texts = [doc["text"] for doc in self.documents]

@@ -1,0 +1,30 @@
+FAULT CODE: E-101
+TITLE: Pitch Control System Fault
+CATEGORY: Wind Turbine - Hydraulic / Electrical
+
+SYMPTOMS:
+- Blade pitch angle deviates from the commanded setpoint by more than 2 degrees.
+- SCADA alarm "PITCH-DEV" logged with the affected blade number (1, 2, or 3).
+- Turbine automatically de-rates or enters safe-stop mode.
+
+LIKELY CAUSES:
+- Hydraulic accumulator pressure below the 160 bar minimum threshold.
+- Pitch actuator encoder drift or contamination.
+- Leaking pitch cylinder seal reducing actuation force.
+
+DIAGNOSTIC STEPS:
+1. Check hydraulic accumulator pressure gauge on the affected blade's pitch unit; compare against the 160-210 bar operating range.
+2. Inspect the pitch encoder cable connections for corrosion or looseness.
+3. Cross-reference the SCADA pitch angle log for the last 24 hours to identify gradual drift vs. sudden fault.
+4. Visually inspect the pitch cylinder for hydraulic fluid leakage at the rod seal.
+
+RESOLUTION:
+1. If accumulator pressure is low, recharge using the nitrogen charging kit to the value listed on the accumulator nameplate.
+2. If the encoder is contaminated, clean per the manufacturer's encoder maintenance procedure and re-zero the pitch reference.
+3. If a seal leak is confirmed, tag the turbine out of service and schedule a cylinder seal replacement; do not attempt to run the turbine with active hydraulic leakage.
+4. After any repair, run the manual pitch test sequence from the nacelle control panel before returning the turbine to automatic operation.
+
+SAFETY NOTES:
+- Hydraulic systems on this unit operate up to 210 bar. Always relieve pressure before disconnecting any hydraulic line.
+- Do not place hands or tools within the pitch bearing sweep radius while the rotor is unlocked.
+- Confirm rotor lock is engaged before entering the hub.

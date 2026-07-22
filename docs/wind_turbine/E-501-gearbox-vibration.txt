@@ -1,0 +1,30 @@
+FAULT CODE: E-501
+TITLE: Gearbox Excessive Vibration
+CATEGORY: Wind Turbine - Drivetrain
+
+SYMPTOMS:
+- Vibration monitoring system (CMS) reports RMS vibration above the alarm threshold on the gearbox intermediate or high-speed shaft.
+- Audible whining or knocking noise from the drivetrain during operation.
+- SCADA alarm "GBX-VIB".
+
+LIKELY CAUSES:
+- Bearing wear or early-stage bearing failure within the gearbox.
+- Gear tooth surface damage (pitting or spalling).
+- Low or contaminated gearbox oil level.
+
+DIAGNOSTIC STEPS:
+1. Review the CMS vibration spectrum for characteristic bearing defect frequencies versus gear-mesh frequencies to help localize the fault.
+2. Check gearbox oil level and condition; take an oil sample for particle analysis if contamination is suspected.
+3. Inspect the oil filter and magnetic chip detector for metal debris, which indicates active wear.
+4. Cross-check oil temperature trend; elevated temperature combined with vibration often confirms a bearing issue.
+
+RESOLUTION:
+1. If chip detector debris is minor and vibration is below the critical threshold, schedule increased monitoring and a borescope inspection at the next opportunity.
+2. If vibration is above the critical threshold or significant metal debris is found, de-rate or stop the turbine and schedule a full gearbox inspection/overhaul — continued operation risks catastrophic gearbox failure.
+3. Top up or replace gearbox oil per the maintenance schedule; always use the manufacturer-specified oil grade.
+4. Document all CMS readings and oil analysis results in the maintenance log for trend tracking.
+
+SAFETY NOTES:
+- Do not open gearbox inspection covers while the drivetrain is rotating or capable of rotating; confirm rotor lock and full LOTO isolation first.
+- Hot gearbox oil can cause burns; allow the unit to cool before sampling.
+- Use proper PPE (gloves, eye protection) when handling gearbox oil samples.

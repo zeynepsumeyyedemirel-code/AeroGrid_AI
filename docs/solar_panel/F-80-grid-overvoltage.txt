@@ -1,0 +1,29 @@
+FAULT CODE: F-80
+TITLE: Grid Overvoltage Trip
+CATEGORY: Solar PV - Inverter / Grid Interconnection
+
+SYMPTOMS:
+- Inverter trips offline with alarm "GRID-OV" (grid overvoltage).
+- AC output voltage reading exceeds the utility interconnection limit (typically 110% of nominal, confirm against the local interconnection agreement).
+- Repeated trip/reconnect cycling during high-irradiance, low-load periods.
+
+LIKELY CAUSES:
+- High local grid voltage caused by excess distributed generation on the feeder (common at midday peak solar production).
+- Undersized AC cabling causing voltage rise between the inverter and the point of common coupling.
+- Inverter voltage ride-through / reactive power settings not configured per the local grid code.
+
+DIAGNOSTIC STEPS:
+1. Check the inverter event log for the exact voltage value and timestamp at trip.
+2. Measure AC voltage directly at the point of common coupling versus at the inverter terminals to check for excessive voltage rise across the cabling.
+3. Confirm the inverter's volt-var / voltage ride-through settings match the utility's current interconnection requirements.
+4. Check whether the trip correlates with peak production hours (11am-2pm) or with utility-side switching events.
+
+RESOLUTION:
+1. If voltage rise across cabling is excessive, this indicates undersized conductors; consult the site's electrical design for a cable upgrade.
+2. Reconfigure inverter reactive power / volt-var settings per the utility's latest interconnection requirements, if authorized to do so.
+3. If the issue is grid-side (feeder voltage itself is high), report to the utility/grid operator — this is outside the scope of on-site correction.
+4. Confirm normal reconnection after voltage returns to acceptable range and the inverter's reconnect delay timer has elapsed.
+
+SAFETY NOTES:
+- Do not bypass or disable inverter protective trip settings; overvoltage protection exists to protect both equipment and grid stability.
+- Use a properly rated meter for AC voltage measurements at the point of common coupling.

@@ -1,0 +1,24 @@
+PROCEDURE: Confined Space Entry
+CATEGORY: Safety - Wind Turbine Tower / Foundation
+
+APPLIES TO: Turbine tower base sections, foundation chambers, and any enclosed space with limited entry/exit and potential for hazardous atmosphere.
+
+PRE-ENTRY REQUIREMENTS:
+1. Confirm a valid confined space entry permit has been issued for the specific space and date.
+2. Test the atmosphere with a calibrated multi-gas monitor for oxygen level (must be 19.5%-23.5%), flammable gas, and toxic gas (e.g., CO) before entry.
+3. Ensure continuous ventilation is running if required by the permit.
+4. Identify and brief an attendant who will remain outside the space at all times during entry, maintaining communication with the entrant.
+5. Confirm rescue equipment (retrieval line, tripod if applicable) is in place and rescue personnel/procedure is understood before entry begins.
+
+DURING ENTRY:
+1. The attendant must maintain continuous communication with the entrant (visual, voice, or radio).
+2. Atmospheric monitoring should continue throughout the entry if the space or work presents a risk of changing conditions.
+3. If atmospheric alarms trigger, or communication with the entrant is lost, the entrant must exit immediately and the attendant must never enter the space to attempt an unassisted rescue — follow the site's rescue procedure instead.
+
+POST-ENTRY:
+1. Confirm all personnel and tools are out of the space.
+2. Close out the entry permit and log the entry.
+
+SAFETY NOTES:
+- Never enter a confined space without a valid permit and a dedicated attendant, even for a "quick look."
+- Foundation chambers and tower base sections can accumulate low-oxygen or hazardous atmospheres even without an obvious source — always test before entry, regardless of prior experience with the space.

@@ -1,0 +1,30 @@
+FAULT CODE: E-301
+TITLE: Stator Overheating
+CATEGORY: Wind Turbine - Electrical / Generator
+
+SYMPTOMS:
+- Stator winding temperature sensor reads above 130°C sustained for more than 5 minutes.
+- SCADA alarm "GEN-OT" (Generator Over-Temperature).
+- Turbine automatically curtails output power or performs a controlled shutdown.
+
+LIKELY CAUSES:
+- Blocked or degraded generator cooling fan / heat exchanger.
+- Sustained operation above rated power due to a control system fault.
+- Insulation degradation causing increased resistive losses.
+
+DIAGNOSTIC STEPS:
+1. Check the cooling fan operation and airflow at the generator heat exchanger; listen for irregular fan noise.
+2. Review the SCADA power curve for the last operating cycle to check for sustained over-power operation.
+3. Measure stator winding insulation resistance with a megohmmeter (minimum acceptable value: 1 MΩ per the manufacturer's spec).
+4. Inspect air filters on the nacelle cooling intake for dust or debris blockage.
+
+RESOLUTION:
+1. Clean or replace blocked air filters and confirm fan operation is restored to nameplate airflow rating.
+2. If insulation resistance is below spec, tag the turbine out of service; a generator rewind or winding repair is required before returning to service.
+3. If the fault was caused by a control system over-power event, verify the power curve limiter settings before restart.
+4. Allow the stator to cool below 80°C before attempting a restart.
+
+SAFETY NOTES:
+- Do not perform electrical testing on the stator while it is still connected to the grid-side contactor.
+- Follow full LOTO isolation before opening the generator housing (see field_safety_rules / LOTO procedure).
+- Generator housings may remain hot to the touch for over an hour after shutdown; use thermal gloves for inspection.

@@ -1,0 +1,24 @@
+PROCEDURE: Arc Flash Boundaries & PPE Categories
+CATEGORY: Safety - High Voltage Electrical
+
+PURPOSE:
+To define safe approach boundaries and required PPE when working on or near energized high-voltage equipment (generator terminals, inverter AC/DC busbars, switchgear).
+
+ARC FLASH BOUNDARY DEFINITIONS:
+- Limited Approach Boundary: distance at which unqualified persons may not approach without an escort.
+- Restricted Approach Boundary: distance requiring full arc-rated PPE and an approved work plan; only qualified, authorized personnel may cross this boundary.
+- Arc Flash Boundary: the distance at which a person could receive a second-degree burn if an arc flash event occurred; this is calculated per equipment based on available fault current and clearing time, and is posted on equipment labels.
+
+DETERMINING THE BOUNDARY:
+1. Check the arc flash warning label on the specific equipment (switchgear, combiner box, generator junction box) — this label states the calculated boundary distance and required PPE category for that equipment.
+2. If no label is present, do not proceed; request an updated arc flash study/label before working on the equipment.
+3. Boundaries and PPE categories differ between low-voltage (typically under 1kV) inverter/combiner work and medium-voltage generator or substation work — always use the label specific to the equipment being accessed.
+
+GENERAL PPE CATEGORY GUIDANCE (confirm against equipment label — this is not a substitute for the site-specific arc flash study):
+- Category 1: arc-rated shirt/pants or coverall, safety glasses, hearing protection, voltage-rated gloves.
+- Category 2: adds an arc-rated flash suit hood or face shield and balaclava.
+- Category 3-4: full arc flash suit, hood, and multiple layers as specified by the study — typically required for higher fault-current equipment such as generator terminals and MV switchgear.
+
+SAFETY NOTES:
+- Never de-energize equipment as a substitute for wearing correct PPE while the de-energization/verification steps themselves are being performed — treat equipment as energized until zero-energy state is verified per LOTO.
+- Arc-rated PPE has a service life and must be inspected before each use for damage, contamination, or expiration.

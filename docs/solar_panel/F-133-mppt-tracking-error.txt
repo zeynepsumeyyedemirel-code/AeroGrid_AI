@@ -1,0 +1,29 @@
+FAULT CODE: F-133
+TITLE: MPPT Tracking Error
+CATEGORY: Solar PV - Inverter / Power Electronics
+
+SYMPTOMS:
+- Inverter alarm "MPPT-ERR" on one or more maximum power point tracking (MPPT) input channels.
+- Power output from the affected MPPT channel is significantly below the expected value for current irradiance conditions.
+- Oscillating or unstable power output reading on the affected channel.
+
+LIKELY CAUSES:
+- Partial shading or soiling on part of the array connected to that MPPT input, causing multiple power peaks that confuse the tracking algorithm.
+- Mismatched string configuration (different orientation, tilt, or module count) connected to the same MPPT input.
+- Firmware issue or MPPT algorithm misconfiguration.
+
+DIAGNOSTIC STEPS:
+1. Check which strings are wired to the affected MPPT input and confirm they are electrically matched (same orientation/tilt/module count) per the design documentation.
+2. Perform a visual site inspection for shading sources (vegetation growth, new structures) or soiling affecting only part of that MPPT's array section.
+3. Compare the affected MPPT channel's power curve shape against a healthy channel for the same time period.
+4. Check inverter firmware version against the latest manufacturer release notes for known MPPT algorithm issues.
+
+RESOLUTION:
+1. Trim vegetation or clean modules if shading/soiling is the identified cause.
+2. If string mismatch is found, this is a design issue — flag for engineering review rather than attempting a field fix.
+3. Update inverter firmware if a relevant fix is available, following the manufacturer's update procedure.
+4. Monitor the channel for at least one full clear-sky day after any correction to confirm stable tracking.
+
+SAFETY NOTES:
+- Firmware updates should only be performed per the manufacturer's documented procedure; an interrupted update can require factory service to recover.
+- Standard DC isolation and PPE practices apply if any physical array work (cleaning, trimming) is required near live conductors.

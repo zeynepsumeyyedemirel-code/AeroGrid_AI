@@ -1,0 +1,30 @@
+FAULT CODE: F-60
+TITLE: String Isolation / Combiner Fuse Fault
+CATEGORY: Solar PV - DC Array
+
+SYMPTOMS:
+- One or more strings show zero or abnormally low current contribution on the combiner box monitoring while string voltage remains present.
+- Alarm "STRING-ISO" or a blown fuse indicator on the combiner box.
+- Overall array production drops proportionally to the number of affected strings.
+
+LIKELY CAUSES:
+- Blown string fuse due to a transient fault (e.g., lightning-induced surge) or a genuine ground/short-circuit fault upstream.
+- Loose or corroded fuse holder connection increasing resistance to the point of nuisance tripping.
+- Reverse current from a mismatched or partially shaded string.
+
+DIAGNOSTIC STEPS:
+1. Open the combiner box (after isolation) and visually inspect string fuses for a blown indicator or discoloration.
+2. Measure open-circuit voltage on the affected string to confirm the modules themselves are producing voltage normally.
+3. Check fuse holder contacts for corrosion or loose seating.
+4. Review recent weather data for lightning activity near the site around the time of the fault.
+
+RESOLUTION:
+1. Replace the blown fuse with the exact amperage rating specified for that string — never substitute a higher-rated fuse.
+2. If the fuse blows again immediately after replacement, do not continue replacing fuses; treat it as an active fault and perform a full string insulation and continuity test before re-energizing.
+3. Clean and re-torque fuse holder contacts if corrosion or looseness was found.
+4. Confirm normal current contribution from the repaired string on the next monitoring cycle.
+
+SAFETY NOTES:
+- Always de-energize and isolate the combiner box per LOTO procedure before opening it.
+- Use insulated tools rated for DC voltage work when handling fuses.
+- Treat a repeatedly blowing fuse as a sign of an underlying fault, not a component to simply keep replacing.

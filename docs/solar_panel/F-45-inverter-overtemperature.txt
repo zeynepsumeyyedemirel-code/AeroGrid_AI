@@ -1,0 +1,30 @@
+FAULT CODE: F-45
+TITLE: Inverter Over-Temperature
+CATEGORY: Solar PV - Inverter
+
+SYMPTOMS:
+- Inverter derates output power or shuts down with alarm "INV-OT".
+- Internal heatsink temperature sensor reads above the manufacturer's threshold (typically 75-85°C depending on model).
+- Cooling fan runs continuously at high speed without bringing temperature down.
+
+LIKELY CAUSES:
+- Blocked or dirty inverter cooling fins/heatsink.
+- Failed or degraded cooling fan.
+- Inverter installed in a location with inadequate ventilation or direct sun exposure exceeding the ambient temperature rating.
+- Sustained operation near the inverter's maximum power rating during high-irradiance conditions.
+
+DIAGNOSTIC STEPS:
+1. Check the inverter's internal temperature log to see if the rise is gradual (pointing to a cooling problem) or sudden (pointing to a load or fan failure).
+2. Inspect and clean the heatsink fins and air intake/exhaust vents for dust, pollen, or debris buildup.
+3. Verify cooling fan operation; listen for unusual noise or check fan current draw if accessible via the diagnostic menu.
+4. Confirm ambient temperature at the inverter enclosure is within the manufacturer's rated operating range.
+
+RESOLUTION:
+1. Clean the heatsink and vents; this resolves the majority of over-temperature events.
+2. Replace a failed or underperforming cooling fan.
+3. If ambient conditions exceed the rated range, consider adding shading or improving enclosure ventilation.
+4. Allow the inverter to cool fully before restarting; repeated forced restarts on a hot unit can accelerate component wear.
+
+SAFETY NOTES:
+- Isolate the inverter (both AC and DC sides) per LOTO procedure before opening any panel for cleaning or fan inspection.
+- Allow adequate cool-down time — internal components and heatsinks can remain hot enough to cause burns for 15-30 minutes after shutdown.

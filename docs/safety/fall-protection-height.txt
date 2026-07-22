@@ -1,0 +1,22 @@
+PROCEDURE: Fall Protection for Work at Height
+CATEGORY: Safety - Wind Turbine Tower, Nacelle & Rooftop Solar
+
+APPLIES TO: Turbine tower climbing, nacelle roof access, blade/hub access, and rooftop solar installations.
+
+REQUIREMENTS BEFORE WORK AT HEIGHT:
+1. Confirm the fall protection harness and lanyard/self-retracting lifeline are within their inspection date and show no visible damage (frayed webbing, damaged hardware, corrosion).
+2. Confirm 100% tie-off practice: at least one anchor point connection must be maintained at all times when transitioning between anchor points.
+3. Identify the rescue plan for the specific location before beginning work — know how a suspended or incapacitated worker would be retrieved.
+4. Check weather conditions; do not perform tower, nacelle, or rooftop work in high wind, lightning risk, or icy conditions per site policy thresholds.
+
+DURING WORK:
+1. Use only anchor points rated and designated for fall arrest — never anchor to unrated structural elements, railings not designed for fall arrest, or equipment components.
+2. Maintain three points of contact when climbing fixed ladders inside the tower, using the ladder's integrated fall arrest system if equipped.
+3. On nacelle roofs and rooftop solar arrays, be aware of edge proximity and use guardrails or continuous tie-off at all times near an unprotected edge.
+
+SUSPENSION TRAUMA AWARENESS:
+- A worker suspended in a harness after a fall is at risk of suspension trauma if not rescued promptly. Rescue should be initiated as quickly as possible, targeting well under the site's maximum suspension time policy.
+
+SAFETY NOTES:
+- Never work at height alone without a means of summoning help (radio/phone) and a known rescue plan.
+- Fall protection equipment is single-use after arresting a fall — remove it from service and inspect/replace per manufacturer guidance even if no visible damage is present.

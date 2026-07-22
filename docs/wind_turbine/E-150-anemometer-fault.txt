@@ -1,0 +1,29 @@
+FAULT CODE: E-150
+TITLE: Anemometer / Wind Vane Fault
+CATEGORY: Wind Turbine - Sensors / Control
+
+SYMPTOMS:
+- SCADA reports a flatlined or erratic wind speed reading (e.g., stuck at 0 m/s while other turbines in the array show normal wind).
+- Turbine fails to start automatically despite adequate site wind conditions.
+- Alarm "ANEMO-FLT" or "WINDVANE-FLT".
+
+LIKELY CAUSES:
+- Ice accumulation on the anemometer cups or wind vane (common in winter conditions).
+- Failed anemometer bearing causing the cup assembly to stop spinning freely.
+- Damaged signal cable between the nacelle roof sensor and the control cabinet.
+
+DIAGNOSTIC STEPS:
+1. Compare this turbine's wind speed reading against neighboring turbines in the same array for the same time window.
+2. Visually inspect the anemometer and wind vane on the nacelle roof (from ground level with binoculars, or via roof access if safe) for ice or physical damage.
+3. Check the sensor signal cable continuity at the nacelle control cabinet terminal block.
+4. If the turbine has a redundant (secondary) anemometer, compare readings between primary and secondary sensors.
+
+RESOLUTION:
+1. If ice is present, this is often a self-clearing seasonal condition; confirm the turbine's ice-detection logic is functioning and not being bypassed.
+2. If the anemometer bearing has failed, replace the anemometer unit; do not attempt to lubricate a sealed bearing assembly in the field.
+3. If cable continuity fails, trace and repair or replace the damaged section of cable.
+4. After sensor replacement, recalibrate against a handheld reference anemometer before returning to automatic control.
+
+SAFETY NOTES:
+- Nacelle roof access requires fall protection and a rescue plan per site policy; do not access the roof alone.
+- Do not attempt roof access in high wind or icy conditions — schedule the visit for a calm-weather window.

@@ -1,0 +1,27 @@
+PROCEDURE: High-Voltage PPE Requirements
+CATEGORY: Safety - Personal Protective Equipment
+
+PURPOSE:
+To define the minimum PPE required when working on or near high-voltage components in wind turbine generators, solar inverters, and combiner/switchgear.
+
+REQUIRED PPE FOR HV ELECTRICAL WORK:
+- Voltage-rated insulating gloves, tested and rated for the voltage class of the equipment, with leather protector gloves worn over them.
+- Arc-rated clothing appropriate to the PPE category specified on the equipment's arc flash label.
+- Safety glasses or face shield, per the arc flash category.
+- Insulated, voltage-rated hand tools when any contact with conductors is possible.
+- Non-conductive, electrical-hazard-rated footwear.
+- Hard hat, for work in nacelles, combiner rooms, or near overhead equipment.
+
+INSPECTION REQUIREMENTS:
+1. Insulating gloves must be visually inspected and air-tested before each use for punctures or degradation.
+2. Insulating gloves must be electrically re-tested at the interval specified by the manufacturer/site policy (commonly every 6 months) — check the test date stamp before use.
+3. Arc-rated clothing must be free of contamination (oil, flammable residue) and free of damage (tears, excessive wear) before use.
+4. Any PPE that fails inspection must be removed from service immediately and replaced.
+
+GENERAL RULES:
+- PPE is a last line of defense — always follow LOTO isolation and verify zero energy before relying on PPE alone.
+- Do not modify or repair damaged arc-rated PPE in the field; retire and replace it.
+- Cotton or synthetic clothing that can melt is not a substitute for arc-rated clothing in HV work areas.
+
+SAFETY NOTES:
+- Match PPE category to the specific equipment's arc flash label — do not assume the same PPE level is sufficient across all equipment on site.

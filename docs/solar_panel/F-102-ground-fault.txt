@@ -1,0 +1,30 @@
+FAULT CODE: F-102
+TITLE: Ground Fault Detected
+CATEGORY: Solar PV - DC Array / Safety
+
+SYMPTOMS:
+- Inverter or combiner box ground fault indicator (GFDI) is illuminated/tripped.
+- Alarm "GND-FLT" logged with the affected string or combiner box number.
+- Array production drops for the affected string(s) while others remain normal.
+
+LIKELY CAUSES:
+- Damaged module or connector insulation allowing a conductor to contact a grounded surface.
+- Water ingress into a junction box or connector.
+- Rodent damage to DC cabling.
+
+DIAGNOSTIC STEPS:
+1. Identify the affected string/combiner box from the fault log.
+2. With the array de-energized and isolated (see LOTO procedure), perform an insulation resistance (megger) test on the affected string, per the site's testing procedure.
+3. Visually inspect module junction boxes and connectors along the affected string for water ingress, cracked housings, or rodent damage.
+4. Check MC4 connector mating for corrosion or incomplete engagement.
+
+RESOLUTION:
+1. Repair or replace any damaged module, connector, or cable segment identified as the fault source.
+2. Reseal junction boxes where water ingress is found; replace the junction box if internal corrosion is present.
+3. Re-test insulation resistance after repair; value must meet the minimum spec (typically ≥1 MΩ) before re-energizing.
+4. Reset the ground fault indicator only after the fault source is confirmed corrected — do not reset repeatedly without diagnosis, as this can mask a developing hazard.
+
+SAFETY NOTES:
+- A ground fault indicates a potential shock hazard. Do not touch array wiring, even with gloves, until the affected string is confirmed de-energized and isolated.
+- Follow full LOTO isolation and use a rated DC voltage meter to confirm zero energy before beginning work.
+- Wet conditions increase shock risk; postpone hands-on diagnosis during active rain if possible.

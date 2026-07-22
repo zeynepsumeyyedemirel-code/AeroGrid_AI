@@ -1,0 +1,30 @@
+FAULT CODE: E-404
+TITLE: Yaw System Jam
+CATEGORY: Wind Turbine - Mechanical
+
+SYMPTOMS:
+- Nacelle fails to track wind direction; yaw error exceeds 15 degrees for more than 10 minutes.
+- SCADA alarm "YAW-JAM".
+- Audible grinding or clicking noise from the yaw bearing during attempted yaw motion.
+
+LIKELY CAUSES:
+- Debris or ice buildup in the yaw gear ring.
+- Worn yaw brake pads causing uneven drag.
+- Yaw motor gearbox failure on one of the multiple yaw drive units.
+
+DIAGNOSTIC STEPS:
+1. Inspect the yaw gear ring visually for ice, debris, or lubricant breakdown (common in cold climates below -5°C).
+2. Check yaw brake pad wear against the minimum thickness spec (see manufacturer manual, typically 6mm).
+3. Command a manual yaw test from the nacelle control panel and listen for which yaw drive unit is not engaging.
+4. Check yaw motor current draw on the SCADA electrical panel; a stalled motor will show current above nameplate rating.
+
+RESOLUTION:
+1. Clear debris and re-grease the yaw gear ring per the lubrication schedule.
+2. Replace yaw brake pads if below minimum thickness; torque to the manufacturer's specified value.
+3. If a single yaw drive unit is stalled, isolate that unit's motor circuit and inspect the gearbox; replace if internal gear damage is found.
+4. Re-test full 360-degree yaw rotation before returning the turbine to automatic operation.
+
+SAFETY NOTES:
+- Engage the yaw brake lock before any technician enters the nacelle to work near the yaw gear ring.
+- Be aware of pinch points around the yaw gear ring during manual yaw testing.
+- In cold-climate sites, check for ice fall risk from the nacelle roof before working below.

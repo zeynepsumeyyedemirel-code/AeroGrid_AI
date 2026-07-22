@@ -1,0 +1,29 @@
+FAULT CODE: E-220
+TITLE: Mechanical Brake Pad Wear Limit
+CATEGORY: Wind Turbine - Mechanical / Braking System
+
+SYMPTOMS:
+- SCADA alarm "BRAKE-WEAR" triggered by the brake pad wear sensor.
+- Extended stopping distance/time observed during scheduled brake tests.
+- Brake caliper temperature reading higher than normal after a stop event.
+
+LIKELY CAUSES:
+- Brake pads worn below the minimum thickness threshold due to normal service life.
+- Frequent emergency stop events accelerating pad wear.
+- Brake caliper misalignment causing uneven pad wear.
+
+DIAGNOSTIC STEPS:
+1. Read the wear sensor value from the SCADA maintenance screen and compare to the minimum thickness spec.
+2. Physically inspect brake pad thickness with calipers if the sensor reading is inconclusive.
+3. Check the brake disc surface for scoring or uneven wear pattern, which may indicate caliper misalignment.
+4. Review the SCADA event log for the number of full/emergency stops in the last maintenance interval.
+
+RESOLUTION:
+1. Replace brake pads as a set (not individually) once below the minimum thickness spec.
+2. Re-torque caliper mounting bolts to the manufacturer's specified value after pad replacement.
+3. If disc scoring is present, measure disc thickness against the minimum spec; resurface or replace if out of tolerance.
+4. Perform a full brake function test (normal stop and emergency stop) before returning the turbine to service.
+
+SAFETY NOTES:
+- Ensure the rotor is locked and the turbine is isolated from automatic control before working on the braking system.
+- Brake discs and calipers may be hot after recent operation; allow cooling time before contact.

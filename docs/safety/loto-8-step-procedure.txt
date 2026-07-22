@@ -1,0 +1,22 @@
+PROCEDURE: Lockout / Tagout (LOTO)
+CATEGORY: Safety - Electrical & Mechanical Isolation
+APPLIES TO: Wind turbines, solar inverters/combiner boxes, and all associated switchgear
+
+PURPOSE:
+To ensure hazardous energy sources (electrical, hydraulic, mechanical/rotational) are fully isolated before any maintenance, inspection, or repair work begins.
+
+8-STEP LOTO PROCEDURE:
+
+1. PREPARE — Identify all energy sources for the equipment (electrical, hydraulic, stored mechanical energy such as a rotor or brake spring). Review the site-specific isolation points list.
+2. NOTIFY — Inform all affected personnel and site control/SCADA operators that the equipment is being taken out of service for isolation.
+3. SHUTDOWN — Bring the equipment to a normal stop using standard operating controls before isolating.
+4. ISOLATE — Open all identified disconnect switches, circuit breakers, and hydraulic isolation valves. For wind turbines, engage the rotor lock pin.
+5. LOCKOUT — Apply a personal safety lock to each isolation point. Each technician working on the equipment applies their own lock — never work under someone else's lock only.
+6. TAGOUT — Attach a tag to each lock stating the technician's name, date, and reason for isolation.
+7. VERIFY ZERO ENERGY — Test for the absence of voltage with a rated meter at the equipment (not just at the disconnect), and confirm mechanical components (rotor, brakes) cannot move. Attempt to start the equipment using normal controls to confirm isolation is effective (try-before-you-touch).
+8. RELEASE — Once work is complete, remove tools, confirm all personnel are clear, remove locks/tags in reverse order (only the technician who applied a lock may remove it), and restore power following the site's re-energization procedure.
+
+SAFETY NOTES:
+- Never remove another technician's lock or tag without following the site's authorized lock removal procedure (typically requiring supervisor authorization and confirmation the technician is unreachable).
+- A group lockbox procedure should be used when multiple technicians are working on the same equipment.
+- Do not consider verbal confirmation of isolation sufficient — always physically verify zero energy state before contact.
