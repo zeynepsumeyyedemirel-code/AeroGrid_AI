@@ -1,6 +1,8 @@
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
 # Virtual Environment
 AeroGrid_venv/
@@ -15,9 +17,12 @@ chroma_db/
 *_backup/
 *.zip
 
+# Environment files
+.env
+
 # OS
 .DS_Store
 
-AeroGrid_venv/
-__pycache__/
-.DS_Store
+# IDE
+.vscode/
+.idea/
