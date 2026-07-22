@@ -174,6 +174,17 @@ Implemented:
 ---
 
 # 🔌 API
+## API Documentation
+
+Interactive API documentation is available through FastAPI Swagger UI.
+
+Swagger UI:
+http://127.0.0.1:8000/docs
+
+OpenAPI specification:
+http://127.0.0.1:8000/openapi.json
+
+---
 
 ## Health Check
 
@@ -428,7 +439,13 @@ to deliver reliable AI assistance for industrial maintenance teams.
 
 ---
 
-# 🖥️ Project Demo
+# 🖥️ Project Dem
+## Dashboard Preview
+
+> Screenshot of AeroGrid AI maintenance assistant interface.
+
+<!-- Add dashboard screenshot here -->
+o
 
 ## Maintenance Assistant Workflow
 
@@ -481,7 +498,18 @@ wind_turbine_maintenance.txt
 
 ---
 
-# 🐳 Docker Deployment
+# 🐳 Docker Deploymen
+## Services
+
+Docker Compose manages:
+
+| Service | Purpose |
+|---|---|
+| FastAPI | Backend API layer |
+| ChromaDB | Vector storage |
+| Ollama | Local LLM inference |
+| RAG Pipeline | Retrieval and generation workflow |
+t
 
 AeroGrid AI supports containerized deployment using Docker Compose.
 
