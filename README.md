@@ -439,7 +439,6 @@ to deliver reliable AI assistance for industrial maintenance teams.
 
 ---
 
-# 🖥️ Project Dem
 # 🖥️ Project Demo
 
 ## Dashboard Preview
@@ -447,7 +446,7 @@ to deliver reliable AI assistance for industrial maintenance teams.
 > Screenshot of AeroGrid AI maintenance assistant interface.
 
 <!-- Add dashboard screenshot here -->
-o
+
 
 ## Maintenance Assistant Workflow
 
@@ -511,7 +510,6 @@ Docker Compose manages:
 | ChromaDB | Vector storage |
 | Ollama | Local LLM inference |
 | RAG Pipeline | Retrieval and generation workflow |
-t
 
 AeroGrid AI supports containerized deployment using Docker Compose.
 
