@@ -1,3 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+AeroGrid_venv/
+
+# Logs
+logs/
+
+# Vector Database
+chroma_db/
+
+# Backups
+*_backup/
+*.zip
+
+# OS
+.DS_Store
+
 AeroGrid_venv/
 __pycache__/
 .DS_Store
