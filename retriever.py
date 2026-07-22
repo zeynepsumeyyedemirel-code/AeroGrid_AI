@@ -6,23 +6,26 @@ from pypdf import PdfReader
 DOCS_DIR = os.path.join(os.path.dirname(__file__), "docs")
 DB_DIR = os.path.join(os.path.dirname(__file__), "chroma_db")
 
-print("🔍 AeroGrid RAG Engine: Loading embedding model...")
-model = SentenceTransformer("all-MiniLM-L6-v2")
+_model = None
 
-chroma_client = chromadb.PersistentClient(path=DB_DIR)
+def get_embedding_model():
+    """Lazy loading for SentenceTransformer model to optimize import speed."""
+    global _model
+    if _model is None:
+        print("🔍 AeroGrid RAG Engine: Loading embedding model...")
+        _model = SentenceTransformer("all-MiniLM-L6-v2")
+    return _model
 
-collection_name = "aerogrid_knowledge_base"
-try:
-    chroma_client.delete_collection(name=collection_name)
-except Exception:
-    pass
+def get_chroma_collection():
+    """Persistent client with lazy collection initialization."""
+    chroma_client = chromadb.PersistentClient(path=DB_DIR)
+    return chroma_client.get_or_create_collection(
+        name="aerogrid_knowledge_base",
+        metadata={"hnsw:space": "cosine"}
+    )
 
-collection = chroma_client.create_collection(
-    name=collection_name,
-    metadata={"hnsw:space": "cosine"}
-)
-
-def intelligent_chunk_text(text, max_chunk_size=400):
+def intelligent_chunk_text(text, max_chunk_size=400, overlap=50):
+    """Recursive chunking with character overlap to preserve semantic context."""
     raw_paragraphs = text.split("\n\n")
     chunks = []
     
@@ -34,18 +37,16 @@ def intelligent_chunk_text(text, max_chunk_size=400):
         if len(para) <= max_chunk_size:
             chunks.append(para)
         else:
-            lines = para.split("\n")
-            current_chunk = ""
-            for line in lines:
-                if len(current_chunk) + len(line) <= max_chunk_size:
-                    current_chunk += line + "\n"
-                else:
-                    if current_chunk.strip():
-                        chunks.append(current_chunk.strip())
-                    current_chunk = line + "\n"
-            if current_chunk.strip():
-                chunks.append(current_chunk.strip())
-                
+            # Overlapping chunk mechanism
+            start = 0
+            while start < len(para):
+                end = start + max_chunk_size
+                chunk = para[start:end]
+                chunks.append(chunk.strip())
+                start += max_chunk_size - overlap
+                if start >= len(para) - overlap:
+                    break
+                    
     return chunks
 
 def extract_text_from_file(file_path):
@@ -68,26 +69,43 @@ def extract_text_from_file(file_path):
             
     return text
 
-def build_vector_store():
+def build_vector_store(force_reindex=False):
+    """Incremental indexing: Only indexes new or updated files unless force_reindex is True."""
+    collection = get_chroma_collection()
+    model = get_embedding_model()
+    
+    # Get existing indexed sources from ChromaDB metadata
+    existing_docs = set()
+    if not force_reindex:
+        existing_records = collection.get(include=["metadatas"])
+        if existing_records and "metadatas" in existing_records:
+            for meta in existing_records["metadatas"]:
+                if meta and "source" in meta:
+                    existing_docs.add(meta["source"])
+
     documents = []
     metadatas = []
     ids = []
     
     doc_count = 0
-    chunk_counter = 0
+    chunk_counter = collection.count()
 
-    print("📂 Indexing documents (.txt & .pdf) into ChromaDB...")
+    print("📂 Checking documents for incremental indexing...")
     for root, _, files in os.walk(DOCS_DIR):
         for file in files:
             if file.endswith(".txt") or file.endswith(".pdf"):
                 file_path = os.path.join(root, file)
                 rel_path = os.path.relpath(file_path, DOCS_DIR)
                 
+                # Incremental check
+                if not force_reindex and rel_path in existing_docs:
+                    continue
+
                 content = extract_text_from_file(file_path)
                 if not content.strip():
                     continue
 
-                chunks = intelligent_chunk_text(content)
+                chunks = intelligent_chunk_text(content, max_chunk_size=400, overlap=50)
                 for i, chunk in enumerate(chunks):
                     documents.append(chunk)
                     metadatas.append({"source": rel_path, "chunk_id": i})
@@ -103,14 +121,15 @@ def build_vector_store():
             metadatas=metadatas,
             ids=ids
         )
-        print(f"✅ Successfully indexed {len(documents)} knowledge chunks from {doc_count} files into ChromaDB!")
+        print(f"✅ Incremental Indexing: Added {len(documents)} new chunks from {doc_count} files into ChromaDB!")
     else:
-        print("⚠️ No valid documents found in 'docs/' directory.")
-
-build_vector_store()
+        print("ℹ️ ChromaDB is up to date. No new documents to index.")
 
 def retrieve_context(query, top_k=3):
     """Retrieves top_k chunks along with metadata and similarity score %."""
+    collection = get_chroma_collection()
+    model = get_embedding_model()
+    
     query_embedding = model.encode([query]).tolist()
     
     results = collection.query(
@@ -125,7 +144,6 @@ def retrieve_context(query, top_k=3):
         distances = results["distances"][0] if "distances" in results else [0.0]*len(docs)
         
         for doc, m, dist in zip(docs, meta, distances):
-            # Convert cosine distance to similarity score percentage
             similarity_pct = round(max(0, (1 - dist)) * 100, 1)
             formatted_matches.append({
                 "source": m['source'],
@@ -136,7 +154,8 @@ def retrieve_context(query, top_k=3):
     return formatted_matches
 
 if __name__ == "__main__":
-    print("\n🔎 Testing ChromaDB Retrieval Engine with Scores...")
+    print("\n🔎 Initializing/Indexing AeroGrid Knowledge Base...")
+    build_vector_store()
     matches = retrieve_context("What is the maximum wind speed limit for climbing?", top_k=2)
     for i, match in enumerate(matches, 1):
         print(f"\n--- Match {i} (Source: {match['source']} | Score: {match['score']}%) ---")
