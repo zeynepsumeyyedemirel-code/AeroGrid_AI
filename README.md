@@ -64,40 +64,37 @@ The system combines semantic retrieval, neural reranking, local LLM generation, 
 ```mermaid
 graph TD
     %% User & Security Ingestion
-    User([👤 User / Client]) -->|1. Submit Query| Guardrail[🛡️ Prompt Injection Guardrail]
+    User([👤 User / Client]) -->|1. Submit Query| Guardrail["🛡️ Prompt Injection Guardrail"]
     
     subgraph Security_Layer ["Security & Validation"]
-        Guardrail -->|Pass / Safe Query| Pipeline[🔄 RAG Orchestrator]
-        Guardrail -->|Fail / Injection Attack| Block[❌ Reject Query / Log Event]
+        Guardrail -->|Pass / Safe Query| Pipeline["🔄 RAG Orchestrator"]
+        Guardrail -->|Fail / Injection Attack| Block["❌ Reject Query / Log Event"]
     end
 
     %% Ingestion & Indexing Pipeline
     subgraph Ingestion_Pipeline ["Incremental Indexing (SHA-256)"]
-        Docs[📄 Technical Manuals / FAQs] -->|Hash Check| SHA256{SHA-256 Changed?}
-        SHA256 -->|Yes| Chunking[✂️ Text Chunking]
-        SHA256 -->|No| Skip[⏭️ Skip Ingestion]
-        Chunking --> BiEncoderEmbed[🔢 Bi-Encoder Embeddings]
-        BiEncoderEmbed --> Store[(💾 ChromaDB Vector Store)]
+        Docs["📄 Technical Manuals / FAQs"] -->|Hash Check| SHA256{SHA-256 Changed?}
+        SHA256 -->|Yes| Chunking["✂️ Text Chunking"]
+        SHA256 -->|No| Skip["⏭️ Skip Ingestion"]
+        Chunking --> BiEncoderEmbed["🔢 Bi-Encoder Embeddings"]
+        BiEncoderEmbed --> Store[("💾 ChromaDB Vector Store")]
     end
 
     %% Two-Stage Retrieval
     subgraph Retrieval_Pipeline ["Two-Stage Retrieval Engine"]
         Pipeline -->|2. Vector Search| Store
-        Store -->|3. Candidate Chunks (Top-K)| BiEncoder[🔍 Bi-Encoder Candidates]
-        BiEncoder -->|4. Raw Context| CrossEncoder[🎯 Cross-Encoder Reranker]
-        CrossEncoder -->|ms-marco-MiniLM-L-6-v2| ReRanked[✨ Re-Ranked Top-N Chunks]
+        Store -->|3. Candidate Chunks| BiEncoder["🔍 Bi-Encoder Candidates"]
+        BiEncoder -->|4. Raw Context| CrossEncoder["🎯 Cross-Encoder Reranker"]
+        CrossEncoder -->|ms-marco-MiniLM-L-6-v2| ReRanked["✨ Re-Ranked Top-N Chunks"]
     end
 
     %% Generation Stage
     subgraph Inference_Engine ["Local LLM Inference"]
-        ReRanked -->|5. Grounded Prompt Context| LLM[🧠 Local LLM / Ollama]
+        ReRanked -->|5. Grounded Prompt Context| LLM["🧠 Local LLM / Ollama"]
         LLM -->|6. Verified Response| Pipeline
     end
 
-    Pipeline -->|7. Return Response + Citations|
-
-
----
+    Pipeline -->|7. Return Response + Citations| User
 
 # 🔍 Retrieval Pipeline
 
