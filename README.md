@@ -59,32 +59,43 @@ The system combines semantic retrieval, neural reranking, local LLM generation, 
 
 ---
 
-# 🏗️ System Architecture
+## 🏗 System Architecture & Data Flow
 
 ```mermaid
-flowchart LR
+graph TD
+    %% User & Security Ingestion
+    User([👤 User / Client]) -->|1. Submit Query| Guardrail[🛡️ Prompt Injection Guardrail]
+    
+    subgraph Security_Layer ["Security & Validation"]
+        Guardrail -->|Pass / Safe Query| Pipeline[🔄 RAG Orchestrator]
+        Guardrail -->|Fail / Injection Attack| Block[❌ Reject Query / Log Event]
+    end
 
-A[Maintenance Documents] --> B[SHA-256 Hash Validation]
+    %% Ingestion & Indexing Pipeline
+    subgraph Ingestion_Pipeline ["Incremental Indexing (SHA-256)"]
+        Docs[📄 Technical Manuals / FAQs] -->|Hash Check| SHA256{SHA-256 Changed?}
+        SHA256 -->|Yes| Chunking[✂️ Text Chunking]
+        SHA256 -->|No| Skip[⏭️ Skip Ingestion]
+        Chunking --> BiEncoderEmbed[🔢 Bi-Encoder Embeddings]
+        BiEncoderEmbed --> Store[(💾 ChromaDB Vector Store)]
+    end
 
-B --> C[Incremental Document Ingestion]
+    %% Two-Stage Retrieval
+    subgraph Retrieval_Pipeline ["Two-Stage Retrieval Engine"]
+        Pipeline -->|2. Vector Search| Store
+        Store -->|3. Candidate Chunks (Top-K)| BiEncoder[🔍 Bi-Encoder Candidates]
+        BiEncoder -->|4. Raw Context| CrossEncoder[🎯 Cross-Encoder Reranker]
+        CrossEncoder -->|ms-marco-MiniLM-L-6-v2| ReRanked[✨ Re-Ranked Top-N Chunks]
+    end
 
-C --> D[Text Chunking]
+    %% Generation Stage
+    subgraph Inference_Engine ["Local LLM Inference"]
+        ReRanked -->|5. Grounded Prompt Context| LLM[🧠 Local LLM / Ollama]
+        LLM -->|6. Verified Response| Pipeline
+    end
 
-D --> E[Sentence Transformer Embeddings]
+    Pipeline -->|7. Return Response + Citations|
 
-E --> F[ChromaDB Persistent Vector Store]
-
-
-Q[Technician Query] --> G[Semantic Retrieval]
-
-G --> H[Cross Encoder Reranking]
-
-H --> I[Context Validation]
-
-I --> J[Ollama LLM Generation]
-
-J --> K[Grounded Maintenance Response]
-```
 
 ---
 
