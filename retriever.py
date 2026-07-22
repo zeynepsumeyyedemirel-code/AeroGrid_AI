@@ -3,7 +3,7 @@ import hashlib
 import logging
 from datetime import datetime
 import chromadb
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer, CrossEncoder
 from pypdf import PdfReader
 
 # --- Logging Setup ---
@@ -25,17 +25,23 @@ DOCS_DIR = os.path.join(os.path.dirname(__file__), "docs")
 DB_DIR = os.path.join(os.path.dirname(__file__), "chroma_db")
 
 _model = None
+_reranker_model = None
 
 def get_embedding_model():
-    """Lazy loading for SentenceTransformer model to optimize import speed."""
     global _model
     if _model is None:
         logger.info("Loading SentenceTransformer embedding model (all-MiniLM-L6-v2)...")
         _model = SentenceTransformer("all-MiniLM-L6-v2")
     return _model
 
+def get_reranker_model():
+    global _reranker_model
+    if _reranker_model is None:
+        logger.info("Loading CrossEncoder reranker model (cross-encoder/ms-marco-MiniLM-L-6-v2)...")
+        _reranker_model = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+    return _reranker_model
+
 def get_chroma_collection():
-    """Persistent client with lazy collection initialization."""
     chroma_client = chromadb.PersistentClient(path=DB_DIR)
     return chroma_client.get_or_create_collection(
         name="aerogrid_knowledge_base",
@@ -43,7 +49,6 @@ def get_chroma_collection():
     )
 
 def compute_file_hash(file_path):
-    """Computes SHA-256 hash of a file to track content changes."""
     sha256 = hashlib.sha256()
     try:
         with open(file_path, "rb") as f:
@@ -55,7 +60,6 @@ def compute_file_hash(file_path):
         return None
 
 def intelligent_chunk_text(text, max_chunk_size=400, overlap=50):
-    """Recursive chunking with character overlap to preserve semantic context."""
     raw_paragraphs = text.split("\n\n")
     chunks = []
     
@@ -79,7 +83,6 @@ def intelligent_chunk_text(text, max_chunk_size=400, overlap=50):
     return chunks
 
 def extract_text_from_file(file_path):
-    """Extracts raw text and page-level details from .txt and .pdf files."""
     ext = os.path.splitext(file_path)[1].lower()
     extracted_pages = []
     
@@ -103,11 +106,9 @@ def extract_text_from_file(file_path):
     return extracted_pages
 
 def build_vector_store(force_reindex=False):
-    """Incremental indexing tracking file SHA-256 hashes and detailed metadata."""
     collection = get_chroma_collection()
     model = get_embedding_model()
     
-    # Map existing files to their indexed SHA-256 hashes
     existing_hashes = {}
     if not force_reindex:
         existing_records = collection.get(include=["metadatas"])
@@ -132,7 +133,6 @@ def build_vector_store(force_reindex=False):
                 file_hash = compute_file_hash(file_path)
                 file_size = os.path.getsize(file_path)
                 
-                # Check if file is already indexed with identical content hash
                 if not force_reindex and rel_path in existing_hashes and existing_hashes[rel_path] == file_hash:
                     continue
 
@@ -169,20 +169,20 @@ def build_vector_store(force_reindex=False):
     else:
         logger.info("ChromaDB is up-to-date. No new or modified documents detected.")
 
-def retrieve_context(query, top_k=3):
-    """Retrieves top_k relevant chunks with enriched metadata and similarity score %."""
+def retrieve_context(query, top_k=3, use_reranker=True):
     collection = get_chroma_collection()
     model = get_embedding_model()
     
-    logger.info(f"Retrieving context for query: '{query}' (top_k={top_k})")
-    query_embedding = model.encode([query]).tolist()
+    initial_top_k = top_k * 3 if use_reranker else top_k
+    logger.info(f"Retrieving initial top {initial_top_k} candidates from ChromaDB...")
     
+    query_embedding = model.encode([query]).tolist()
     results = collection.query(
         query_embeddings=query_embedding,
-        n_results=top_k
+        n_results=initial_top_k
     )
 
-    formatted_matches = []
+    initial_matches = []
     if results and "documents" in results and results["documents"]:
         docs = results["documents"][0]
         meta = results["metadatas"][0]
@@ -190,20 +190,28 @@ def retrieve_context(query, top_k=3):
         
         for doc, m, dist in zip(docs, meta, distances):
             similarity_pct = round(max(0, (1 - dist)) * 100, 1)
-            formatted_matches.append({
+            initial_matches.append({
                 "source": m.get('source', 'Unknown'),
                 "page": m.get('page', 1),
                 "chunk_id": m.get('chunk_id', 0),
                 "content": doc,
                 "score": similarity_pct
             })
-            
-    return formatted_matches
 
-if __name__ == "__main__":
-    logger.info("Initializing AeroGrid Knowledge Base directly...")
-    build_vector_store()
-    matches = retrieve_context("What is the maximum wind speed limit for climbing?", top_k=2)
-    for i, match in enumerate(matches, 1):
-        print(f"\n--- Match {i} (Source: {match['source']} | Page: {match['page']} | Score: {match['score']}%) ---")
-        print(match['content'])
+    if not initial_matches or not use_reranker:
+        return initial_matches[:top_k]
+
+    # --- Stage 2: Cross-Encoder Reranking ---
+    logger.info(f"Reranking {len(initial_matches)} candidates using CrossEncoder...")
+    reranker = get_reranker_model()
+    
+    pairs = [[query, match["content"]] for match in initial_matches]
+    rerank_scores = reranker.predict(pairs)
+
+    for i, score in enumerate(rerank_scores):
+        initial_matches[i]["rerank_score"] = round(float(1 / (1 + pow(2.71828, -score))) * 100, 1)
+
+    reranked_matches = sorted(initial_matches, key=lambda x: x["rerank_score"], reverse=True)
+    
+    logger.info("Reranking completed successfully.")
+    return reranked_matches[:top_k]
