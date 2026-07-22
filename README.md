@@ -1,6 +1,8 @@
 # 🛸 AeroGrid AI
 ## Enterprise Renewable Energy Maintenance RAG Platform
 
+![CI](https://github.com/zeynepsumeyyedemirel-code/AeroGrid_AI/actions/workflows/ci.yml/badge.svg)
+
 AeroGrid AI is an enterprise-oriented Retrieval-Augmented Generation (RAG) platform designed for renewable energy maintenance operations.
 
 The system assists wind turbine and solar field technicians by retrieving verified technical knowledge from maintenance documentation and generating grounded AI responses using local Large Language Models.
