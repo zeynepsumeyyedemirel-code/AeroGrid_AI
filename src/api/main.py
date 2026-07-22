@@ -1,3 +1,4 @@
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
@@ -38,9 +39,11 @@ def query(request: QueryRequest):
 
     question = request.question
 
-    security_result = check_prompt(question)
+    security_result = check_input_safety(question)
 
-    if not security_result["allowed"]:
+
+    if not security_result:
+
         raise HTTPException(
             status_code=400,
             detail="Unsafe prompt detected"

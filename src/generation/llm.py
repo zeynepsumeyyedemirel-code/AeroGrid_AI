@@ -17,9 +17,23 @@ class LocalLLM:
         self.endpoint = endpoint
 
 
-    def generate(self, prompt: str) -> str:
+    def generate(self, question: str, context: str) -> str:
 
         start_time = time.time()
+
+        prompt = f"""
+You are AeroGrid AI, an enterprise renewable energy maintenance assistant.
+
+Use the following maintenance context to answer the technician question.
+
+Context:
+{context}
+
+Question:
+{question}
+
+Answer with precise corrective actions and safety warnings.
+"""
 
         try:
 
@@ -66,5 +80,4 @@ class LocalLLM:
             logger.exception(e)
 
             return "LLM_ERROR"
-
 

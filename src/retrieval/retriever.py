@@ -22,8 +22,10 @@ logging.basicConfig(
 logger = logging.getLogger("AeroGrid_Retriever")
 
 DOCS_DIR = os.path.join(os.path.dirname(__file__), "docs")
-DB_DIR = os.path.join(os.path.dirname(__file__), "chroma_db")
-
+DB_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+    "chroma_db"
+)
 _model = None
 _reranker_model = None
 
