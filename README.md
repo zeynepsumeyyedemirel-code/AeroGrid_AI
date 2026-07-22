@@ -440,6 +440,8 @@ to deliver reliable AI assistance for industrial maintenance teams.
 ---
 
 # 🖥️ Project Dem
+# 🖥️ Project Demo
+
 ## Dashboard Preview
 
 > Screenshot of AeroGrid AI maintenance assistant interface.
@@ -498,7 +500,7 @@ wind_turbine_maintenance.txt
 
 ---
 
-# 🐳 Docker Deploymen
+# 🐳 Docker Deployment
 ## Services
 
 Docker Compose manages:
