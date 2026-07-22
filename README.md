@@ -3,122 +3,129 @@
 
 ![CI](https://github.com/zeynepsumeyyedemirel-code/AeroGrid_AI/actions/workflows/ci.yml/badge.svg)
 
-An enterprise-oriented Retrieval-Augmented Generation (RAG) platform for renewable energy maintenance operations.
+AeroGrid AI is an enterprise-oriented Retrieval-Augmented Generation (RAG) platform designed for renewable energy maintenance operations.
 
-AeroGrid AI assists wind turbine and solar field technicians by retrieving verified technical knowledge from maintenance documentation and generating grounded AI responses using local Large Language Models.
+The system assists wind turbine and solar field technicians by retrieving verified technical knowledge from maintenance documentation and generating grounded AI responses using local Large Language Models.
 
-AeroGrid AI combines document intelligence, semantic retrieval, neural reranking, local AI inference, security guardrails, and persistent vector storage to deliver reliable AI assistance for industrial maintenance workflows.
+AeroGrid AI combines:
+
+- Document intelligence
+- Semantic retrieval
+- Neural reranking
+- Local LLM inference
+- Security guardrails
+- Source-grounded generation
+- Persistent vector storage
+- FastAPI backend
+
+to deliver reliable AI assistance for industrial maintenance workflows.
 
 ---
 
 # 🚀 Key Capabilities
 
-## 🔎 Advanced Retrieval-Augmented Generation Pipeline
+## 🔎 Advanced RAG Pipeline
 
-AeroGrid AI implements a two-stage retrieval architecture:
+AeroGrid AI implements a two-stage Retrieval-Augmented Generation architecture.
 
 ### 1. Semantic Retrieval
 
 Maintenance documents are transformed into vector embeddings using:
 
-
+```
 sentence-transformers/all-MiniLM-L6-v2
+```
 
-
-Relevant technical knowledge is retrieved from a persistent ChromaDB vector database.
+Relevant maintenance knowledge is retrieved from a persistent ChromaDB vector database.
 
 ### 2. Neural Reranking
 
 Retrieved candidates are refined using:
 
-
+```
 cross-encoder/ms-marco-MiniLM-L6-v2
+```
 
-
-The reranking layer improves:
+The reranking stage improves:
 
 - Context relevance
 - Retrieval precision
-- Answer quality
+- Answer reliability
 
 ---
 
-# 🏭 Industrial Use Case
+# 🏭 Industrial Problem
 
-Renewable energy technicians operate with large volumes of technical documentation:
+Renewable energy technicians work with large volumes of technical documentation:
 
 - Equipment manuals
-- Fault code descriptions
+- Fault code documentation
 - Safety procedures
 - Inspection protocols
 - Maintenance instructions
 
-Finding the correct procedure during field operations can be time-consuming.
+Finding the correct procedure during field operations can be slow and error-prone.
 
 AeroGrid AI provides:
 
-✅ Fast technical knowledge retrieval  
-✅ Documentation-grounded responses  
+✅ Faster troubleshooting  
+✅ Documentation-grounded answers  
 ✅ Source traceability  
 ✅ Reduced hallucination risk  
-✅ Privacy-focused local deployment  
+✅ Privacy-focused deployment  
 
 ---
 
 # 🏗️ System Architecture
 
+```
+Technician Question
 
-Technician Query
-
-    |
-    v
+        |
+        v
 
 FastAPI Backend
 
-    |
-    v
+        |
+        v
 
 Security Guardrails
 
-    |
-    v
+        |
+        v
 
-Embedding Model
+Query Embedding
 
-(all-MiniLM-L6-v2)
-
-    |
-    v
+        |
+        v
 
 ChromaDB Vector Database
 
-    |
-    v
+        |
+        v
 
 Semantic Retrieval
 
-    |
-    v
+        |
+        v
 
 Cross Encoder Reranking
 
-    |
-    v
+        |
+        v
 
 Context Assembly
 
-    |
-    v
+        |
+        v
 
-Local LLM Generation
+Ollama Local LLM
 
-(Ollama + Phi-3)
-
-    |
-    v
+        |
+        v
 
 Grounded Maintenance Response
-
+```
 
 ---
 
@@ -126,11 +133,11 @@ Grounded Maintenance Response
 
 AeroGrid AI uses:
 
-
+```
 Ollama + Phi-3
+```
 
-
-Advantages:
+Benefits:
 
 - Local inference
 - Data privacy
@@ -144,18 +151,14 @@ Advantages:
 
 ## Prompt Injection Protection
 
-The system validates user input before generation.
+The system follows strict generation rules:
 
-Generation policy:
-
-
+```
 Only answer using retrieved maintenance context.
 
 If sufficient information is unavailable:
 return INSUFFICIENT_CONTEXT.
-
-
----
+```
 
 ## Reliability Features
 
@@ -170,15 +173,13 @@ Implemented:
 
 ---
 
-# 🔌 API Interface
+# 🔌 API
 
 ## Health Check
 
-Endpoint:
-
-
+```
 GET /health
-
+```
 
 Example:
 
@@ -187,57 +188,79 @@ Example:
   "status": "healthy",
   "service": "AeroGrid AI"
 }
-Maintenance Query
+```
 
-Endpoint:
+---
 
+## Maintenance Query
+
+```
 POST /query
+```
 
-Request:
+Example request:
 
+```json
 {
   "question": "What is the corrective action for E-301 generator overheating?"
 }
+```
 
-Response:
+Example response:
 
+```json
 {
   "answer": "Inspect cooling fan fuses and relays. Check coolant levels.",
   "sources": [
     "wind_turbine_maintenance.txt"
   ]
 }
-📊 Evaluation
+```
+
+---
+
+# 📊 Evaluation Results
 
 Current Knowledge Base:
 
+```
 278 indexed maintenance chunks
+```
 
 Validated Scenario:
 
+```
 E-301 Generator Overheating Fault
+```
 
 Results:
 
-✅ Correct maintenance procedure retrieved
-✅ Safety warnings included
-✅ Corrective actions generated
-✅ Source documents returned
+✅ Relevant maintenance procedure retrieved  
+✅ Safety warnings included  
+✅ Corrective actions generated  
+✅ Source documents returned  
 
 Pipeline:
 
+```
 Semantic Retrieval
         +
 Neural Reranking
         +
 Local LLM Generation
-🗂️ Project Structure
+```
+
+---
+
+# 🗂️ Project Structure
+
+```
 AeroGrid_AI/
 
 ├── src/
 │
 ├── api/
-│   └── FastAPI backend
+│   └── FastAPI application
 │
 ├── retrieval/
 │   └── ChromaDB retrieval pipeline
@@ -246,104 +269,159 @@ AeroGrid_AI/
 │   └── Local LLM integration
 │
 ├── security/
-│   └── Safety guardrails
+│   └── Guardrails
 │
 ├── documents/
 │   └── Maintenance knowledge base
 │
 ├── tests/
 │
-├── chroma_db/
-│
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt
 └── README.md
-⚙️ Installation
+```
+
+---
+
+# ⚙️ Installation
 
 Clone repository:
 
+```bash
 git clone https://github.com/zeynepsumeyyedemirel-code/AeroGrid_AI.git
 
 cd AeroGrid_AI
+```
 
 Create environment:
 
+```bash
 python -m venv AeroGrid_venv
 
 source AeroGrid_venv/bin/activate
+```
 
 Install dependencies:
 
+```bash
 pip install -r requirements.txt
+```
 
 Run API:
 
+```bash
 uvicorn src.api.main:app --reload
+```
 
-Swagger documentation:
+Swagger:
 
+```
 http://127.0.0.1:8000/docs
-🧰 Technology Stack
-Component	Technology
-Backend	FastAPI
-Language	Python
-Vector Database	ChromaDB
-Embeddings	Sentence Transformers
-Reranker	Cross Encoder
-LLM Runtime	Ollama
-Model	Phi-3
-Testing	Pytest
-Deployment	Docker
-💡 Engineering Decisions
-Why RAG?
+```
 
-RAG architecture grounds AI responses in verified technical documentation and reduces hallucination risk.
+---
 
-Why ChromaDB?
-Persistent local storage
-Lightweight deployment
-Suitable for industrial environments
-Why Neural Reranking?
+# 🧰 Technology Stack
 
-Vector retrieval provides speed.
+| Component | Technology |
+|---|---|
+| Backend | FastAPI |
+| Language | Python |
+| Vector Database | ChromaDB |
+| Embeddings | Sentence Transformers |
+| Reranker | Cross Encoder |
+| LLM Runtime | Ollama |
+| Model | Phi-3 |
+| Testing | Pytest |
+| Deployment | Docker |
 
-Cross Encoder reranking improves precision and context quality.
+---
 
-Why Local LLM?
+# 🎯 Demo Scenario
 
-Local inference provides:
+## Industrial Maintenance Query
 
-Data privacy
-Operational control
-Offline capability
-🔮 Future Roadmap
-Phase 1 — Core RAG
+A field technician encounters a wind turbine generator overheating fault.
 
-✅ Retrieval pipeline
-✅ Local LLM generation
-✅ Security layer
+Question:
 
-Phase 2 — Enterprise Platform
-Authentication
-Role-Based Access Control
-Cloud deployment
-Monitoring dashboard
-Phase 3 — Industrial Intelligence
-Real-time sensor integration
-Predictive maintenance
-Automated anomaly detection
-👩‍💻 Project Summary
+```
+What is the corrective action for E-301 generator overheating?
+```
 
-AeroGrid AI demonstrates an enterprise-grade RAG architecture for renewable energy maintenance operations.
+AeroGrid AI retrieves:
+
+- Fault documentation
+- Safety procedures
+- Corrective maintenance steps
+
+and generates a grounded response with source references.
+
+---
+
+# 🏭 Enterprise Design Principles
+
+## Reliability
+
+- Documentation-grounded generation
+- Source attribution
+- Context validation
+
+## Security
+
+- Prompt injection protection
+- Local inference
+- Privacy-focused deployment
+
+## Scalability
+
+- Persistent vector storage
+- Modular architecture
+- Containerized deployment
+
+## Maintainability
+
+- Automated testing
+- Structured logging
+- Clear separation of components
+
+---
+
+# 🔮 Future Roadmap
+
+## Phase 1 — Core RAG
+
+✅ Retrieval pipeline  
+✅ Local LLM generation  
+✅ Security layer  
+
+## Phase 2 — Enterprise Platform
+
+- Authentication
+- Role-Based Access Control
+- Cloud deployment
+- Monitoring dashboard
+
+## Phase 3 — Industrial Intelligence
+
+- Real-time sensor integration
+- Predictive maintenance
+- Automated anomaly detection
+
+---
+
+# 👩‍💻 Project Summary
+
+AeroGrid AI demonstrates an enterprise-grade RAG architecture for renewable energy maintenance.
 
 The project combines:
 
-Document intelligence
-Vector search
-Neural reranking
-Local AI inference
-Security controls
-API deployment
+- Document intelligence
+- Vector search
+- Neural reranking
+- Local AI inference
+- Security controls
+- API deployment
 
 to deliver reliable AI assistance for industrial maintenance teams.
