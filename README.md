@@ -425,3 +425,205 @@ The project combines:
 - API deployment
 
 to deliver reliable AI assistance for industrial maintenance teams.
+
+---
+
+# 🖥️ Project Demo
+
+## Maintenance Assistant Workflow
+
+AeroGrid AI workflow:
+
+```
+Technician Question
+
+        ↓
+
+FastAPI API Request
+
+        ↓
+
+Document Retrieval
+
+        ↓
+
+Semantic Search
+
+        ↓
+
+Neural Reranking
+
+        ↓
+
+Local LLM Generation
+
+        ↓
+
+Grounded Maintenance Answer
+```
+
+Example maintenance query:
+
+```
+What is the corrective action for E-301 generator overheating?
+```
+
+Generated response:
+
+```
+Inspect cooling fan fuses and relays.
+Check coolant levels.
+Verify temperature sensor readings.
+
+Sources:
+wind_turbine_maintenance.txt
+```
+
+---
+
+# 🐳 Docker Deployment
+
+AeroGrid AI supports containerized deployment using Docker Compose.
+
+## Build and Run
+
+Clone repository:
+
+```bash
+git clone https://github.com/zeynepsumeyyedemirel-code/AeroGrid_AI.git
+
+cd AeroGrid_AI
+```
+
+Start the platform:
+
+```bash
+docker compose up --build
+```
+
+The system launches:
+
+- FastAPI backend
+- RAG pipeline
+- Vector database storage
+- Local AI inference services
+
+---
+
+## Container Architecture
+
+```
+Docker Compose
+
+      |
+      |
+
+FastAPI Service
+
+      |
+      |
+
+RAG Pipeline
+
+      |
+      |
+
+ChromaDB Vector Storage
+
+      |
+      |
+
+Ollama Local LLM
+```
+
+---
+
+# 🔌 Enterprise API Documentation
+
+## Health Monitoring
+
+### Endpoint
+
+```
+GET /health
+```
+
+Purpose:
+
+Service availability monitoring.
+
+Response:
+
+```json
+{
+  "status": "healthy",
+  "service": "AeroGrid AI",
+  "version": "1.0"
+}
+```
+
+---
+
+## Maintenance Query API
+
+### Endpoint
+
+```
+POST /query
+```
+
+Purpose:
+
+Submit a maintenance question and receive a grounded AI response.
+
+Request:
+
+```json
+{
+  "question": "How should gearbox overheating be inspected?"
+}
+```
+
+Response:
+
+```json
+{
+  "answer": "Inspect lubrication system and temperature sensors.",
+  "sources": [
+    "gearbox_maintenance_manual.pdf"
+  ],
+  "confidence": "high"
+}
+```
+
+---
+
+# 📈 Engineering Metrics
+
+Current system capabilities:
+
+| Metric | Value |
+|---|---|
+| Indexed Knowledge Chunks | 278 |
+| Retrieval Method | Semantic Search |
+| Reranking | Cross Encoder |
+| LLM Runtime | Ollama |
+| Deployment | Docker |
+| API Framework | FastAPI |
+| Testing Framework | Pytest |
+
+---
+
+# 🚀 Production Vision
+
+Future enterprise extensions:
+
+- Authentication and authorization
+- Role-based technician access
+- Cloud deployment
+- Monitoring dashboards
+- Real-time sensor integration
+- Predictive maintenance models
+
+---
+
