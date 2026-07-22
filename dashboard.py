@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
-import json
-from retriever import retrieve_context
+import os
+from retriever import retrieve_context, build_vector_store, DOCS_DIR
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL_NAME = "phi3"
@@ -13,9 +13,32 @@ st.set_page_config(
 )
 
 st.title("⚡ AeroGrid AI — Offline Field Service Assistant")
-st.caption("🌐 Status: OFFLINE MODE (Ollama Local LLM + ChromaDB RAG Active)")
+st.caption("🌐 Status: OFFLINE MODE (Ollama Local LLM + ChromaDB Vector Store Active)")
 
-# Preset quick questions
+# Sidebar for Dynamic File Upload (PDF / TXT)
+with st.sidebar:
+    st.header("📂 Document Management")
+    st.markdown("Upload new manuals or SOPs directly into ChromaDB.")
+    
+    uploaded_files = st.file_uploader(
+        "Upload PDF or TXT manuals:",
+        type=["pdf", "txt"],
+        accept_multiple_files=True
+    )
+    
+    if st.button("📥 Index Uploaded Documents", type="secondary"):
+        if uploaded_files:
+            for file in uploaded_files:
+                save_path = os.path.join(DOCS_DIR, file.name)
+                with open(save_path, "wb") as f:
+                    f.write(file.getbuffer())
+            st.success(f"Saved {len(uploaded_files)} file(s). Re-indexing ChromaDB...")
+            build_vector_store()
+            st.rerun()
+        else:
+            st.warning("Please select at least one file to upload.")
+
+# Main Interface
 QUICK_ISSUES = {
     "Custom Query...": "",
     "Fault Code E-301: Stator Overheating": "What is the SOP for fault code E-301?",
@@ -28,7 +51,6 @@ col1, col2 = st.columns([1, 1])
 
 with col1:
     st.subheader("❓ Technician Query")
-    
     selected_preset = st.selectbox("Select a quick sample issue or write below:", list(QUICK_ISSUES.keys()))
     
     default_text = QUICK_ISSUES[selected_preset] if selected_preset != "Custom Query..." else ""
@@ -41,11 +63,10 @@ with col2:
     
     if submit_btn and user_query.strip():
         with st.spinner("Retrieving ChromaDB contexts and generating guidance..."):
-            # 1. Retrieve top_k contexts from ChromaDB
-            retrieved_chunks = retrieve_context(user_query, top_k=3)
-            context_str = "\n\n".join(retrieved_chunks)
+            retrieved_matches = retrieve_context(user_query, top_k=3)
             
-            # 2. Safety-First Prompt Construction
+            context_str = "\n\n".join([f"Source: {m['source']} (Relevance: {m['score']}%)\n{m['content']}" for m in retrieved_matches])
+            
             system_prompt = f"""
 You are AeroGrid AI, an offline field service assistant for renewable energy engineers.
 Your duty is to provide precise, safety-critical troubleshooting guidance based STRICTLY on the provided official documents.
@@ -65,7 +86,6 @@ USER QUESTION:
 ANSWER:
 """
             
-            # 3. Request Ollama API
             payload = {
                 "model": MODEL_NAME,
                 "prompt": system_prompt,
@@ -81,15 +101,16 @@ ANSWER:
                     st.success("Response Generated Successfully!")
                     st.markdown(answer)
                     
-                    # Safety Disclaimer Box
                     st.warning("⚠️ **SAFETY DISCLAIMER:** This guidance is generated offline via AeroGrid RAG. Always verify high-voltage and height procedures against physical manual placards on site before taking action.")
                     
-                    # Context expander for field inspection
-                    with st.expander("🔍 View Retrieved ChromaDB Contexts"):
-                        st.code(context_str, language="text")
+                    # Context expander with Score Visualizations
+                    with st.expander("🔍 View Retrieved ChromaDB Contexts & Match Scores"):
+                        for idx, match in enumerate(retrieved_matches, 1):
+                            st.markdown(f"**Chunk {idx}:** `{match['source']}` — **Match Score: `{match['score']}%`**")
+                            st.code(match['content'], language="text")
+                            st.divider()
                 else:
                     st.error(f"Ollama API returned status code {response.status_code}.")
             except requests.exceptions.RequestException as e:
                 st.error(f"Failed to connect to local Ollama server: {e}")
                 st.info("Make sure Ollama is running locally via `ollama serve` and `phi3` model is available.")
-
