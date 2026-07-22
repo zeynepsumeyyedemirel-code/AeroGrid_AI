@@ -1,73 +1,124 @@
 import os
+import chromadb
 from sentence_transformers import SentenceTransformer
-import numpy as np
 
-class AeroGridRetriever:
-    def __init__(self, docs_dir="docs"):
-        self.docs_dir = docs_dir
-        print("🔍 AeroGrid RAG Engine: Loading embedding model...")
-        # Hafif ve hızlı Türkçe/İngilizce uyumlu vektör modeli
-        self.embedder = SentenceTransformer('all-MiniLM-L6-v2')
-        self.documents = []
-        self.doc_embeddings = []
-        self._load_and_embed_docs()
+# 1. Initialize Vector Database & Embedding Model
+DOCS_DIR = os.path.join(os.path.dirname(__file__), "docs")
+DB_DIR = os.path.join(os.path.dirname(__file__), "chroma_db")
 
-    def _load_and_embed_docs(self):
-        if not os.path.exists(self.docs_dir):
-            print(f"⚠️ Warning: '{self.docs_dir}' directory not found!")
-            return
+print("🔍 AeroGrid RAG Engine: Loading embedding model...")
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
-        print(f"📂 Indexing documents inside '{self.docs_dir}' (including subdirectories)...")
-        
-        # os.walk kullanarak docs/ altındaki tüm klasörleri ve .txt dosyalarını tarıyoruz
-        for root, _, files in os.walk(self.docs_dir):
-            for file_name in files:
-                if file_name.endswith(".txt"):
-                    file_path = os.path.join(root, file_name)
-                    with open(file_path, "r", encoding="utf-8") as f:
-                        content = f.read()
-                        # Metinleri paragraflara bölerek indeksliyoruz
-                        paragraphs = [p.strip() for p in content.split("\n\n") if p.strip()]
-                        
-                        # Kaynak adı olarak göreceli yolu (relative path) alıyoruz (örn: wind_turbine/E-101-pitch-control.txt)
-                        rel_source = os.path.relpath(file_path, self.docs_dir)
-                        
-                        for p in paragraphs:
-                            self.documents.append({
-                                "source": rel_source,
-                                "text": p
-                            })
+# Setup Persistent ChromaDB Client
+chroma_client = chromadb.PersistentClient(path=DB_DIR)
 
-        if self.documents:
-            texts = [doc["text"] for doc in self.documents]
-            self.doc_embeddings = self.embedder.encode(texts, convert_to_numpy=True)
-            print(f"✅ Successfully indexed {len(self.documents)} knowledge chunks!")
+# Reset / Get Collection
+collection_name = "aerogrid_knowledge_base"
+try:
+    chroma_client.delete_collection(name=collection_name)
+except Exception:
+    pass
+
+collection = chroma_client.create_collection(name=collection_name)
+
+def intelligent_chunk_text(text, max_chunk_size=400):
+    """
+    Splits text by headers, blank lines, and procedure steps to maintain logical context.
+    """
+    raw_paragraphs = text.split("\n\n")
+    chunks = []
+    
+    for para in raw_paragraphs:
+        para = para.strip()
+        if not para:
+            continue
+            
+        # If paragraph is within limit, keep intact
+        if len(para) <= max_chunk_size:
+            chunks.append(para)
         else:
-            print("⚠️ No valid .txt documents found in 'docs/' folder.")
+            # Sub-split long lists/procedures by lines
+            lines = para.split("\n")
+            current_chunk = ""
+            for line in lines:
+                if len(current_chunk) + len(line) <= max_chunk_size:
+                    current_chunk += line + "\n"
+                else:
+                    if current_chunk.strip():
+                        chunks.append(current_chunk.strip())
+                    current_chunk = line + "\n"
+            if current_chunk.strip():
+                chunks.append(current_chunk.strip())
+                
+    return chunks
 
-    def search(self, query, top_k=2):
-        if not self.documents:
-            return []
+def build_vector_store():
+    """Reads all text files in docs/ and stores embeddings in ChromaDB."""
+    documents = []
+    metadatas = []
+    ids = []
+    
+    doc_count = 0
+    chunk_counter = 0
 
-        query_embedding = self.embedder.encode([query], convert_to_numpy=True)
-        # Cosine similarity hesaplama
-        similarities = np.dot(self.doc_embeddings, query_embedding.T).squeeze()
+    print("📂 Indexing documents into ChromaDB...")
+    for root, _, files in os.walk(DOCS_DIR):
+        for file in files:
+            if file.endswith(".txt"):
+                file_path = os.path.join(root, file)
+                rel_path = os.path.relpath(file_path, DOCS_DIR)
+                
+                with open(file_path, "r", encoding="utf-8") as f:
+                    content = f.read()
+
+                chunks = intelligent_chunk_text(content)
+                for i, chunk in enumerate(chunks):
+                    documents.append(chunk)
+                    metadatas.append({"source": rel_path, "chunk_id": i})
+                    ids.append(f"doc_{chunk_counter}")
+                    chunk_counter += 1
+                doc_count += 1
+
+    if documents:
+        # Generate embeddings & insert into ChromaDB
+        embeddings = model.encode(documents).tolist()
+        collection.add(
+            documents=documents,
+            embeddings=embeddings,
+            metadatas=metadatas,
+            ids=ids
+        )
+        print(f"✅ Successfully indexed {len(documents)} knowledge chunks from {doc_count} files into ChromaDB!")
+    else:
+        print("⚠️ No text files found in 'docs/' directory.")
+
+# Run indexing on load
+build_vector_store()
+
+def retrieve_context(query, top_k=3):
+    """Retrieves top_k most relevant chunks using ChromaDB query."""
+    query_embedding = model.encode([query]).tolist()
+    
+    results = collection.query(
+        query_embeddings=query_embedding,
+        n_results=top_k
+    )
+
+    formatted_matches = []
+    if results and "documents" in results and results["documents"]:
+        docs = results["documents"][0]
+        meta = results["metadatas"][0]
         
-        if np.ndim(similarities) == 0:
-            top_indices = [0]
-        else:
-            top_indices = np.argsort(similarities)[::-1][:top_k]
-
-        results = []
-        for idx in top_indices:
-            results.append(self.documents[idx])
-        return results
+        for doc, m in zip(docs, meta):
+            formatted_matches.append(f"Source: {m['source']}\n{doc}")
+            
+    return formatted_matches
 
 if __name__ == "__main__":
-    retriever = AeroGridRetriever()
+    print("\n🔎 Testing ChromaDB Retrieval Engine...")
     test_query = "What is the maximum wind speed limit for climbing?"
-    print(f"\n🔎 Testing Search Query: '{test_query}'")
-    matches = retriever.search(test_query)
+    matches = retrieve_context(test_query, top_k=2)
+    
     for i, match in enumerate(matches, 1):
-        print(f"\n--- Match {i} (Source: {match['source']}) ---")
-        print(match['text'])
+        print(f"\n--- Match {i} ({match.splitlines()[0]}) ---")
+        print("\n".join(match.splitlines()[1:]))
