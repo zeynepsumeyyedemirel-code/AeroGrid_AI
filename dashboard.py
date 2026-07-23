@@ -105,6 +105,7 @@ IMPORTANT:
 - If information is missing, say:
 INSUFFICIENT_CONTEXT: The official documentation does not contain enough information to answer this safely.
 - Always cite source document name and page number.
+- If the documentation mentions an action but does not describe the procedure, do not create procedural steps. Clearly state that detailed instructions are unavailable.
 
 DOCUMENTATION CONTEXT:
 {context_str}
