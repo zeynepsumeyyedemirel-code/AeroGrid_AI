@@ -1,6 +1,9 @@
 import os
 import hashlib
 import logging
+
+os.environ["ANONYMIZED_TELEMETRY"] = "False"
+
 from datetime import datetime
 import chromadb
 from sentence_transformers import SentenceTransformer, CrossEncoder
@@ -41,12 +44,26 @@ def get_reranker_model():
         _reranker_model = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
     return _reranker_model
 
+_chroma_client = None
+_collection = None
+
+
 def get_chroma_collection():
-    chroma_client = chromadb.PersistentClient(path=DB_DIR)
-    return chroma_client.get_or_create_collection(
-        name="aerogrid_knowledge_base",
-        metadata={"hnsw:space": "cosine"}
-    )
+    global _chroma_client, _collection
+
+    if _collection is None:
+        logger.info("Initializing ChromaDB persistent client...")
+
+        _chroma_client = chromadb.PersistentClient(
+            path=DB_DIR
+        )
+
+        _collection = _chroma_client.get_or_create_collection(
+            name="aerogrid_knowledge_base",
+            metadata={"hnsw:space": "cosine"}
+        )
+
+    return _collection
 
 def compute_file_hash(file_path):
     sha256 = hashlib.sha256()

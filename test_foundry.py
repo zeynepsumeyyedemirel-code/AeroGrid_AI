@@ -1,52 +1,46 @@
 import time
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+import requests
+
+
+OLLAMA_URL = "http://host.docker.internal:11434/api/generate"
+MODEL_NAME = "phi3:latest"
+
 
 def main():
-    print("🚀 AeroGrid AI - Starting Local Engine Test...")
-    
-    # Hugging Face üzerindeki resmi Phi-3.5-mini modeli
-    model_id = "microsoft/Phi-3.5-mini-instruct"
-    
-    print(f"🔎 Loading model and tokenizer: {model_id}...")
-    start_time = time.time()
-    
-    # Tokenizer ve Model yükleme
-    tokenizer = AutoTokenizer.from_pretrained(model_id)
-    model = AutoModelForCausalLM.from_pretrained(
-        model_id, 
-        torch_dtype="auto", 
-        device_map="auto"
-    )
-    
-    pipe = pipeline(
-        "text-generation",
-        model=model,
-        tokenizer=tokenizer,
-    )
-    
-    print(f"⚡ Model ready! (Load time: {round(time.time() - start_time, 2)} seconds)")
+    print("🚀 AeroGrid AI - Starting Ollama Local Engine Test...")
 
-    # Test mesajları
-    messages = [
-        {
-            "role": "system", 
-            "content": "You are AeroGrid AI, an offline field service assistant for wind and solar farms. You provide concise, accurate technical support."
-        },
-        {
-            "role": "user", 
-            "content": "Hello! What is the maximum wind speed limit for climbing a wind turbine tower?"
-        }
-    ]
-    
-    print("\n🤖 Sending test query to AeroGrid AI...")
-    outputs = pipe(messages, max_new_tokens=150)
-    
-    response = outputs[0]["generated_text"][-1]["content"]
-    
-    print("\n💬 AeroGrid AI Response:")
-    print("--------------------------------------------------")
-    print(response)
-    print("--------------------------------------------------")
+    payload = {
+        "model": MODEL_NAME,
+        "prompt": "Explain the safety procedure for wind turbine maintenance.",
+        "stream": False
+    }
+
+    print(f"🔎 Testing local model: {MODEL_NAME}")
+
+    start_time = time.time()
+
+    try:
+        response = requests.post(
+            OLLAMA_URL,
+            json=payload,
+            timeout=120
+        )
+
+        response.raise_for_status()
+
+        result = response.json()
+
+        elapsed = time.time() - start_time
+
+        print("✅ Ollama connection successful!")
+        print(f"⏱️ Response time: {elapsed:.2f}s")
+        print("\n🤖 Model Response:")
+        print(result.get("response", ""))
+
+    except Exception as e:
+        print("❌ Ollama test failed:")
+        print(e)
+
 
 if __name__ == "__main__":
     main()
