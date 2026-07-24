@@ -1,6 +1,6 @@
-# ⚡ AeroGrid AI — Offline Field Service Assistant
-
 ![CI](https://github.com/zeynepsumeyyedemirel-code/AeroGrid_AI/actions/workflows/ci.yml/badge.svg)
+
+# ⚡ AeroGrid AI — Offline Field Service Assistant
 
 AeroGrid AI is an enterprise-oriented **offline Retrieval-Augmented Generation (RAG) assistant** designed for renewable energy field maintenance operations.
 
@@ -202,35 +202,34 @@ Technicians can submit maintenance questions and receive grounded responses with
 
 # 🗂️ Project Structure
 
-
+```text
 AeroGrid_AI/
 
 ├── app/
-│
-├── app/api/
-│ └── API services
-│
-├── app/core/
-│ └── Configuration and utilities
-│
-├── app/ingestion/
-│ └── Document processing pipeline
-│
-├── app/retrieval/
-│ └── ChromaDB retrieval and reranking
-│
-├── app/llm/
-│ └── Local LLM integration
-│
-├── app/security/
-│ └── Safety guardrails
-│
-├── app/evaluation/
-│ └── RAG evaluation tests
+│   ├── api/
+│   │   └── API services
+│   │
+│   ├── core/
+│   │   └── Configuration and utilities
+│   │
+│   ├── ingestion/
+│   │   └── Document processing pipeline
+│   │
+│   ├── retrieval/
+│   │   └── ChromaDB retrieval and reranking
+│   │
+│   ├── llm/
+│   │   └── Local LLM integration
+│   │
+│   ├── security/
+│   │   └── Safety guardrails
+│   │
+│   └── evaluation/
+│       └── RAG evaluation tests
 │
 ├── data/
-│ ├── raw/
-│ └── chroma_db/
+│   ├── raw/
+│   └── chroma_db/
 │
 ├── tests/
 │
@@ -239,7 +238,6 @@ AeroGrid_AI/
 ├── docker-compose.yml
 ├── requirements.txt
 └── README.md
-
 
 ---
 
