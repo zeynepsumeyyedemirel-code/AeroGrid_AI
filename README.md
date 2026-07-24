@@ -1,24 +1,23 @@
-# 🛸 AeroGrid AI
-## Enterprise Renewable Energy Maintenance RAG Platform
+# ⚡ AeroGrid AI — Offline Field Service Assistant
 
 ![CI](https://github.com/zeynepsumeyyedemirel-code/AeroGrid_AI/actions/workflows/ci.yml/badge.svg)
 
-AeroGrid AI is an enterprise-oriented Retrieval-Augmented Generation (RAG) platform designed for renewable energy maintenance operations.
+AeroGrid AI is an enterprise-oriented **offline Retrieval-Augmented Generation (RAG) assistant** designed for renewable energy field maintenance operations.
 
-The system assists wind turbine and solar field technicians by retrieving verified technical knowledge from maintenance documentation and generating grounded AI responses using local Large Language Models.
+The system helps wind turbine and solar technicians retrieve verified maintenance knowledge and generate **source-grounded AI guidance** using local Large Language Models.
 
 AeroGrid AI combines:
 
 - Document intelligence
-- Semantic retrieval
+- Semantic vector retrieval
 - Neural reranking
 - Local LLM inference
 - Security guardrails
 - Source-grounded generation
 - Persistent vector storage
-- FastAPI backend
+- Containerized deployment
 
-to deliver reliable AI assistance for industrial maintenance workflows.
+to provide reliable AI assistance for industrial maintenance workflows.
 
 ---
 
@@ -30,36 +29,40 @@ AeroGrid AI implements a two-stage Retrieval-Augmented Generation architecture.
 
 ### 1. Semantic Retrieval
 
-Maintenance documents are transformed into vector embeddings using:
+Maintenance documents are converted into embeddings using:
 
-```
+
 sentence-transformers/all-MiniLM-L6-v2
-```
 
-Relevant maintenance knowledge is retrieved from a persistent ChromaDB vector database.
+
+Stored knowledge is retrieved from:
+
+
+ChromaDB Persistent Vector Database
+
 
 ### 2. Neural Reranking
 
 Retrieved candidates are refined using:
 
-```
+
 cross-encoder/ms-marco-MiniLM-L6-v2
-```
 
-The reranking stage improves:
 
-- Context relevance
-- Retrieval precision
-- Answer reliability
+Benefits:
+
+- Higher relevance
+- Improved context quality
+- Reduced hallucination risk
 
 ---
 
 # 🏭 Industrial Problem
 
-Renewable energy technicians work with large volumes of technical documentation:
+Renewable energy technicians work with large amounts of technical information:
 
 - Equipment manuals
-- Fault code documentation
+- Fault code documents
 - Safety procedures
 - Inspection protocols
 - Maintenance instructions
@@ -69,6 +72,7 @@ Finding the correct procedure during field operations can be slow and error-pron
 AeroGrid AI provides:
 
 ✅ Faster troubleshooting  
+✅ Offline AI assistance  
 ✅ Documentation-grounded answers  
 ✅ Source traceability  
 ✅ Reduced hallucination risk  
@@ -78,54 +82,49 @@ AeroGrid AI provides:
 
 # 🏗️ System Architecture
 
-```
+
 Technician Question
 
-        |
-        v
+    |
+    v
 
-FastAPI Backend
+Streamlit Dashboard / API
 
-        |
-        v
+    |
+    v
 
 Security Guardrails
 
-        |
-        v
+    |
+    v
 
 Query Embedding
 
-        |
-        v
+    |
+    v
 
-ChromaDB Vector Database
+ChromaDB Vector Search
 
-        |
-        v
-
-Semantic Retrieval
-
-        |
-        v
+    |
+    v
 
 Cross Encoder Reranking
 
-        |
-        v
+    |
+    v
 
-Context Assembly
+Context Validation
 
-        |
-        v
+    |
+    v
 
 Ollama Local LLM
 
-        |
-        v
+    |
+    v
 
 Grounded Maintenance Response
-```
+
 
 ---
 
@@ -133,525 +132,235 @@ Grounded Maintenance Response
 
 AeroGrid AI uses:
 
-```
+
 Ollama + Phi-3
-```
 
-Benefits:
 
-- Local inference
-- Data privacy
+Advantages:
+
+- Offline inference
 - No external API dependency
-- Offline-capable architecture
+- Data privacy
 - Industrial deployment compatibility
 
 ---
 
-# 🛡️ Security & Reliability
+# 🛡️ Safety & Reliability
 
-## Prompt Injection Protection
+AeroGrid AI follows strict generation rules:
 
-The system follows strict generation rules:
 
-```
-Only answer using retrieved maintenance context.
+Only answer using retrieved documentation.
 
-If sufficient information is unavailable:
+If information is missing:
 return INSUFFICIENT_CONTEXT.
-```
 
-## Reliability Features
 
-Implemented:
+Implemented protections:
 
+✅ Prompt injection protection  
+✅ Context validation  
+✅ Source citation  
 ✅ Persistent vector storage  
 ✅ Structured logging  
 ✅ Exception handling  
 ✅ Timeout management  
-✅ Context validation  
-✅ Source attribution  
 
 ---
 
-# 🔌 API
-## API Documentation
+# 📊 Evaluation & Benchmark Metrics
 
-Interactive API documentation is available through FastAPI Swagger UI.
+Current validation scenario:
 
-Swagger UI:
-http://127.0.0.1:8000/docs
 
-OpenAPI specification:
-http://127.0.0.1:8000/openapi.json
+Wind Turbine Fault Code E-301
+Generator Overheating Fault
 
----
 
-## Health Check
-
-```
-GET /health
-```
-
-Example:
-
-```json
-{
-  "status": "healthy",
-  "service": "AeroGrid AI"
-}
-```
+| Metric | Result |
+|---|---|
+| Evaluation Dataset | 15 Synthetic Maintenance Protocols |
+| Retrieval Precision@3 | 100% |
+| Unit Tests | 5/5 Passed |
+| Average Query Latency | ~450ms |
+| Embedding Model | all-MiniLM-L6-v2 |
+| Reranker Model | ms-marco-MiniLM-L6-v2 |
+| Vector Database | ChromaDB Persistent Storage |
+| LLM Runtime | Ollama Local Inference |
 
 ---
 
-## Maintenance Query
+# 🖥️ Dashboard Demo
 
-```
-POST /query
-```
+AeroGrid AI provides an offline technician assistant interface.
 
-Example request:
+Technicians can submit maintenance questions and receive grounded responses with retrieved document context.
 
-```json
-{
-  "question": "What is the corrective action for E-301 generator overheating?"
-}
-```
-
-Example response:
-
-```json
-{
-  "answer": "Inspect cooling fan fuses and relays. Check coolant levels.",
-  "sources": [
-    "wind_turbine_maintenance.txt"
-  ]
-}
-```
-
----
-
-# 📊 Evaluation Results
-
-Current Knowledge Base:
-
-```
-278 indexed maintenance chunks
-```
-
-Validated Scenario:
-
-```
-E-301 Generator Overheating Fault
-```
-
-Results:
-
-✅ Relevant maintenance procedure retrieved  
-✅ Safety warnings included  
-✅ Corrective actions generated  
-✅ Source documents returned  
-
-Pipeline:
-
-```
-Semantic Retrieval
-        +
-Neural Reranking
-        +
-Local LLM Generation
-```
+![AeroGrid AI Dashboard](screenshots/aerogrid-dashboard-demo.png)
 
 ---
 
 # 🗂️ Project Structure
 
-```
+
 AeroGrid_AI/
 
-├── src/
+├── app/
 │
-├── api/
-│   └── FastAPI application
+├── app/api/
+│ └── API services
 │
-├── retrieval/
-│   └── ChromaDB retrieval pipeline
+├── app/core/
+│ └── Configuration and utilities
 │
-├── generation/
-│   └── Local LLM integration
+├── app/ingestion/
+│ └── Document processing pipeline
 │
-├── security/
-│   └── Guardrails
+├── app/retrieval/
+│ └── ChromaDB retrieval and reranking
 │
-├── documents/
-│   └── Maintenance knowledge base
+├── app/llm/
+│ └── Local LLM integration
+│
+├── app/security/
+│ └── Safety guardrails
+│
+├── app/evaluation/
+│ └── RAG evaluation tests
+│
+├── data/
+│ ├── raw/
+│ └── chroma_db/
 │
 ├── tests/
 │
+├── dashboard.py
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt
 └── README.md
-```
 
----
-
-# ⚙️ Installation
-
-Clone repository:
-
-```bash
-git clone https://github.com/zeynepsumeyyedemirel-code/AeroGrid_AI.git
-
-cd AeroGrid_AI
-```
-
-Create environment:
-
-```bash
-python -m venv AeroGrid_venv
-
-source AeroGrid_venv/bin/activate
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Run API:
-
-```bash
-uvicorn src.api.main:app --reload
-```
-
-Swagger:
-
-```
-http://127.0.0.1:8000/docs
-```
-
----
-
-# 🧰 Technology Stack
-
-| Component | Technology |
-|---|---|
-| Backend | FastAPI |
-| Language | Python |
-| Vector Database | ChromaDB |
-| Embeddings | Sentence Transformers |
-| Reranker | Cross Encoder |
-| LLM Runtime | Ollama |
-| Model | Phi-3 |
-| Testing | Pytest |
-| Deployment | Docker |
-
----
-
-# 🎯 Demo Scenario
-
-## Industrial Maintenance Query
-
-A field technician encounters a wind turbine generator overheating fault.
-
-Question:
-
-```
-What is the corrective action for E-301 generator overheating?
-```
-
-AeroGrid AI retrieves:
-
-- Fault documentation
-- Safety procedures
-- Corrective maintenance steps
-
-and generates a grounded response with source references.
-
----
-
-# 🏭 Enterprise Design Principles
-
-## Reliability
-
-- Documentation-grounded generation
-- Source attribution
-- Context validation
-
-## Security
-
-- Prompt injection protection
-- Local inference
-- Privacy-focused deployment
-
-## Scalability
-
-- Persistent vector storage
-- Modular architecture
-- Containerized deployment
-
-## Maintainability
-
-- Automated testing
-- Structured logging
-- Clear separation of components
-
----
-
-# 🔮 Future Roadmap
-
-## Phase 1 — Core RAG
-
-✅ Retrieval pipeline  
-✅ Local LLM generation  
-✅ Security layer  
-
-## Phase 2 — Enterprise Platform
-
-- Authentication
-- Role-Based Access Control
-- Cloud deployment
-- Monitoring dashboard
-
-## Phase 3 — Industrial Intelligence
-
-- Real-time sensor integration
-- Predictive maintenance
-- Automated anomaly detection
-
----
-
-# 👩‍💻 Project Summary
-
-AeroGrid AI demonstrates an enterprise-grade RAG architecture for renewable energy maintenance.
-
-The project combines:
-
-- Document intelligence
-- Vector search
-- Neural reranking
-- Local AI inference
-- Security controls
-- API deployment
-
-to deliver reliable AI assistance for industrial maintenance teams.
-
----
-
-# 🖥️ Project Demo
-
-## Dashboard Preview
-
-> Screenshot of AeroGrid AI maintenance assistant interface.
-
-<!-- Add dashboard screenshot here -->
-
-
-## Maintenance Assistant Workflow
-
-AeroGrid AI workflow:
-
-```
-Technician Question
-
-        ↓
-
-FastAPI API Request
-
-        ↓
-
-Document Retrieval
-
-        ↓
-
-Semantic Search
-
-        ↓
-
-Neural Reranking
-
-        ↓
-
-Local LLM Generation
-
-        ↓
-
-Grounded Maintenance Answer
-```
-
-Example maintenance query:
-
-```
-What is the corrective action for E-301 generator overheating?
-```
-
-Generated response:
-
-```
-Inspect cooling fan fuses and relays.
-Check coolant levels.
-Verify temperature sensor readings.
-
-Sources:
-wind_turbine_maintenance.txt
-```
 
 ---
 
 # 🐳 Docker Deployment
-## Services
 
-Docker Compose manages:
+AeroGrid AI supports containerized deployment.
+
+Services:
 
 | Service | Purpose |
 |---|---|
-| FastAPI | Backend API layer |
+| Dashboard | Technician interface |
+| FastAPI | Backend API |
 | ChromaDB | Vector storage |
 | Ollama | Local LLM inference |
-| RAG Pipeline | Retrieval and generation workflow |
 
-AeroGrid AI supports containerized deployment using Docker Compose.
-
-## Build and Run
-
-Clone repository:
-
-```bash
-git clone https://github.com/zeynepsumeyyedemirel-code/AeroGrid_AI.git
-
-cd AeroGrid_AI
-```
-
-Start the platform:
+Run:
 
 ```bash
 docker compose up --build
-```
-
-The system launches:
-
-- FastAPI backend
-- RAG pipeline
-- Vector database storage
-- Local AI inference services
-
----
-
-## Container Architecture
-
-```
-Docker Compose
-
-      |
-      |
-
-FastAPI Service
-
-      |
-      |
-
-RAG Pipeline
-
-      |
-      |
-
-ChromaDB Vector Storage
-
-      |
-      |
-
-Ollama Local LLM
-```
-
----
-
-# 🔌 Enterprise API Documentation
-
-## Health Monitoring
-
-### Endpoint
-
-```
+🔌 API
+Health Check
 GET /health
-```
 
-Purpose:
+Example:
 
-Service availability monitoring.
-
-Response:
-
-```json
 {
   "status": "healthy",
-  "service": "AeroGrid AI",
-  "version": "1.0"
+  "service": "AeroGrid AI"
 }
-```
-
----
-
-## Maintenance Query API
-
-### Endpoint
-
-```
+Maintenance Query
 POST /query
-```
 
-Purpose:
+Example:
 
-Submit a maintenance question and receive a grounded AI response.
-
-Request:
-
-```json
 {
-  "question": "How should gearbox overheating be inspected?"
+  "question": "What is the corrective action for E-301 generator overheating?"
 }
-```
 
 Response:
 
-```json
 {
-  "answer": "Inspect lubrication system and temperature sensors.",
+  "answer": "Grounded maintenance response",
   "sources": [
-    "gearbox_maintenance_manual.pdf"
-  ],
-  "confidence": "high"
+    "wind_turbine_maintenance.txt"
+  ]
 }
-```
+🧰 Technology Stack
+Component	Technology
+Language	Python
+Backend	FastAPI
+Dashboard	Streamlit
+Vector Database	ChromaDB
+Embeddings	Sentence Transformers
+Reranking	Cross Encoder
+LLM Runtime	Ollama
+Model	Phi-3
+Testing	Pytest
+Deployment	Docker
+🎯 Example Scenario
 
----
+Technician question:
 
-# 📈 Engineering Metrics
+What is the SOP for fault code E-301?
 
-Current system capabilities:
+AeroGrid AI:
 
-| Metric | Value |
-|---|---|
-| Indexed Knowledge Chunks | 278 |
-| Retrieval Method | Semantic Search |
-| Reranking | Cross Encoder |
-| LLM Runtime | Ollama |
-| Deployment | Docker |
-| API Framework | FastAPI |
-| Testing Framework | Pytest |
+Retrieves relevant maintenance documentation
+Applies neural reranking
+Validates available information
+Generates grounded offline guidance
 
----
+If documentation is insufficient:
 
-# 🚀 Production Vision
+INSUFFICIENT_CONTEXT:
+The official documentation does not contain enough information.
+🚀 Enterprise Design Principles
+Reliability
+Grounded generation
+Source attribution
+Context validation
+Security
+Local inference
+Prompt injection protection
+Privacy-first architecture
+Scalability
+Modular components
+Persistent storage
+Container deployment
+Maintainability
+Automated testing
+Structured logging
+Clean architecture
+🔮 Future Roadmap
+Phase 1 — Core RAG
 
-Future enterprise extensions:
+✅ Retrieval pipeline
+✅ Local LLM generation
+✅ Security layer
 
-- Authentication and authorization
-- Role-based technician access
-- Cloud deployment
-- Monitoring dashboards
-- Real-time sensor integration
-- Predictive maintenance models
+Phase 2 — Enterprise Platform
+Authentication
+Role-based technician access
+Monitoring dashboard
+Cloud deployment
+Phase 3 — Industrial Intelligence
+Sensor integration
+Predictive maintenance
+Anomaly detection
+👩‍💻 Project Summary
 
----
+AeroGrid AI demonstrates an enterprise-grade offline RAG architecture for renewable energy maintenance.
+
+The project combines:
+
+Retrieval-Augmented Generation
+Vector search
+Neural reranking
+Local AI inference
+Safety controls
+Containerized deployment
+
+to deliver reliable AI assistance for industrial field service operations.
 
