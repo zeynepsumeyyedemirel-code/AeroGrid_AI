@@ -69,10 +69,14 @@ with col1:
         list(QUICK_ISSUES.keys())
     )
 
-    default_text = QUICK_ISSUES[selected_preset] if selected_preset != "Custom Query..." else ""
+    default_text = (
+        QUICK_ISSUES[selected_preset]
+        if selected_preset != "Custom Query..."
+        else ""
+    )
 
     if "user_query" not in st.session_state:
-        st.session_state.user_query = default_text
+        st.session_state.user_query = default_text    
 
     user_query = st.text_area(
         "Field Question:",
