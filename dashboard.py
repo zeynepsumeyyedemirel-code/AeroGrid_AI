@@ -68,15 +68,13 @@ with col1:
         "Select a quick sample issue or write below:",
         list(QUICK_ISSUES.keys())
     )
-
-    default_text = (
-        QUICK_ISSUES[selected_preset]
-        if selected_preset != "Custom Query..."
-        else ""
-    )
-
     if "user_query" not in st.session_state:
-        st.session_state.user_query = default_text    
+        st.session_state.user_query = ""
+
+    if selected_preset != "Custom Query...":
+        if st.session_state.get("last_selected_preset") != selected_preset:
+            st.session_state.user_query = QUICK_ISSUES[selected_preset]
+            st.session_state.last_selected_preset = selected_preset
 
     user_query = st.text_area(
         "Field Question:",
@@ -96,7 +94,7 @@ with col2:
             retrieved_matches = retrieve_context(user_query, top_k=3)
             
             context_str = "\n\n".join([
-                f"Source: {m['source']} (Page: {m['page']}, Match: {m['score']}%)\n{m['content']}" 
+                f"Source: {m['source']} (Page: {m['page']})\n{m['content']}"
                 for m in retrieved_matches
             ])
             
@@ -106,10 +104,12 @@ You are AeroGrid AI, an offline technical maintenance assistant for renewable en
 IMPORTANT:
 - Answer ONLY using the provided documentation context.
 - Do not use outside knowledge.
+- Never mention match scores, similarity scores, chunks, or retrieval metadata.
+- Never mention the retrieval process.
+- Do not create procedural steps unless the documentation explicitly provides them.
 - If information is missing, say:
-INSUFFICIENT_CONTEXT: The official documentation does not contain enough information to answer this safely.
-- Always cite source document name and page number.
-- If the documentation mentions an action but does not describe the procedure, do not create procedural steps. Clearly state that detailed instructions are unavailable.
+INSUFFICIENT_CONTEXT: The official documentation does not contain enough information to provide procedural steps.
+- Always cite source document name and page number. 
 
 DOCUMENTATION CONTEXT:
 {context_str}
@@ -117,8 +117,19 @@ DOCUMENTATION CONTEXT:
 TECHNICIAN QUESTION:
 {user_query}
 
-Provide a concise professional field-service answer:
+Answer format rules:
+- Start directly with the answer.
+- Never mention match scores, similarity scores, chunks, or retrieval metadata.
+- Never mention "According to" or describe the retrieval process.
+- Do not combine information from multiple documents into a new procedure.
+- Do not create procedural steps unless the documentation explicitly provides them.
+- If the documentation only mentions a corrective action without detailed steps, state:
+INSUFFICIENT_CONTEXT: The official documentation does not contain enough information to provide procedural steps.
+- Only cite the exact source filename and page number.
+- If returning INSUFFICIENT_CONTEXT, output only the INSUFFICIENT_CONTEXT statement and the exact source citation at the end.
+- Do not repeat the fault code title or document summary before INSUFFICIENT_CONTEXT.
 """
+
             
             payload = {
                 "model": MODEL_NAME,
