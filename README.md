@@ -56,20 +56,15 @@ Benefits:
 - Reduced hallucination risk
 
 ---
-
 # 🏭 Industrial Problem
 
-Renewable energy technicians work with large amounts of technical information:
+Renewable energy field technicians work with large amounts of technical information, including equipment manuals, fault code documents, safety procedures, inspection protocols, and maintenance instructions.
 
-- Equipment manuals
-- Fault code documents
-- Safety procedures
-- Inspection protocols
-- Maintenance instructions
+During field operations, finding the correct procedure quickly can be slow and error-prone. Traditional AI assistants may generate generic answers without access to verified operational documentation.
 
-Finding the correct procedure during field operations can be slow and error-prone.
+AeroGrid AI addresses this challenge by combining Retrieval-Augmented Generation (RAG) with local LLM inference to provide grounded technical assistance for wind turbine and solar panel maintenance scenarios.
 
-AeroGrid AI provides:
+The system retrieves relevant information from a local knowledge base before generating responses, enabling:
 
 ✅ Faster troubleshooting  
 ✅ Offline AI assistance  
@@ -77,6 +72,10 @@ AeroGrid AI provides:
 ✅ Source traceability  
 ✅ Reduced hallucination risk  
 ✅ Privacy-focused deployment  
+
+## 💡 Key Idea
+
+Keep renewable energy maintenance knowledge local, retrieve only verified technical information, and generate reliable AI assistance without external cloud dependency. 
 
 ---
 
@@ -178,29 +177,43 @@ Implemented protections:
 
 Current validation scenario:
 
-
-Wind Turbine Fault Code E-301
-Generator Overheating Fault
-
+**Wind Turbine Fault Code E-301**  
+**Generator Overheating Fault**
 
 | Metric | Result |
 |---|---|
 | Evaluation Dataset | 15+ Synthetic Industrial Maintenance Protocols (Wind Turbine Faults, Solar Troubleshooting, Safety Procedures) |
 | Retrieval Precision@3 | 100% |
-| Unit Tests | 6/6  Passed |
+| Unit Tests | 6/6 Passed |
 | Average Query Latency | ~450ms |
-| Embedding Model | all-MiniLM-L6-v2 |
-| Reranker Model | ms-marco-MiniLM-L6-v2 |
+| Embedding Model | sentence-transformers/all-MiniLM-L6-v2 |
+| Reranker Model | cross-encoder/ms-marco-MiniLM-L6-v2 |
 | Vector Database | ChromaDB Persistent Storage |
-| LLM Runtime | Ollama Local Inference |
+| LLM Runtime | Ollama + Phi-3 Local Inference | 
 
 ---
 
+# 💬 Example Queries
+
+Example maintenance questions:
+
+- What is the corrective action for E-301 generator overheating fault?
+- What safety steps are required before turbine maintenance?
+- How should an inverter overtemperature issue be handled?
+- What are the LOTO requirements for field intervention?
+
+
 # 🖥️ Dashboard Demo
 
-AeroGrid AI provides an offline technician assistant interface.
+AeroGrid AI provides an offline technician assistant interface for renewable energy field operations.
 
-Technicians can submit maintenance questions and receive grounded responses with retrieved document context.
+Technicians can submit maintenance questions, retrieve relevant documentation context, and receive grounded AI responses generated from the local knowledge base.
+
+The dashboard demonstrates:
+- Offline question answering
+- Documentation-grounded maintenance guidance
+- Retrieved source context visibility
+- Local LLM inference with no cloud dependency
 
 ![AeroGrid AI Dashboard](screenshots/aerogrid-dashboard-demo.png)
 
@@ -269,10 +282,20 @@ Services:
 | ChromaDB | Vector storage |
 | Ollama | Local LLM inference |
 
-Run:
+---
+
+# ⚠️ Limitations
+
+- The assistant provides guidance only from available local documentation.
+- Missing documentation may result in INSUFFICIENT_CONTEXT responses.
+- High-risk procedures should always be verified against official manuals and site safety protocols.
+
+## Run with Docker 
 
 ```bash
 docker compose up --build
+```
+
 🔌 API
 Health Check
 GET /health
@@ -283,6 +306,7 @@ Example:
   "status": "healthy",
   "service": "AeroGrid AI"
 }
+
 Maintenance Query
 POST /query
 
