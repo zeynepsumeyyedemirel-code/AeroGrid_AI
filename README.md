@@ -82,49 +82,50 @@ AeroGrid AI provides:
 
 # 🏗️ System Architecture
 
+AeroGrid AI follows a local-first Retrieval-Augmented Generation (RAG) architecture designed for offline renewable energy field operations.
 
+```text
+Maintenance Documents
+        |
+        v
+Document Ingestion Pipeline
+        |
+        v
+Embedding Generation
+        |
+        v
+ChromaDB Vector Store
+        |
+        v
 Technician Question
-
-    |
-    v
-
-Streamlit Dashboard / API
-
-    |
-    v
-
-Security Guardrails
-
-    |
-    v
-
+        |
+        v
 Query Embedding
-
-    |
-    v
-
-ChromaDB Vector Search
-
-    |
-    v
-
+        |
+        v
+Semantic Retrieval
+        |
+        v
 Cross Encoder Reranking
-
-    |
-    v
-
+        |
+        v
 Context Validation
-
-    |
-    v
-
-Ollama Local LLM
-
-    |
-    v
-
+        |
+        v
+Local LLM Inference
+(Phi-3 + Ollama / Foundry Local compatible)
+        |
+        v
 Grounded Maintenance Response
+```
 
+## Architecture Layers
+
+- **Document Layer:** Processes maintenance manuals, fault codes, and safety procedures.
+- **Retrieval Layer:** Uses ChromaDB semantic search with neural reranking.
+- **Validation Layer:** Applies grounding rules and safety guardrails.
+- **Generation Layer:** Produces responses using local LLM inference.
+- **Deployment Layer:** Supports offline enterprise field environments.
 
 ---
 
