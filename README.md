@@ -181,7 +181,7 @@ Generator Overheating Fault
 |---|---|
 | Evaluation Dataset | 15 Synthetic Maintenance Protocols |
 | Retrieval Precision@3 | 100% |
-| Unit Tests | 5/5 Passed |
+| Unit Tests | 6/6  Passed |
 | Average Query Latency | ~450ms |
 | Embedding Model | all-MiniLM-L6-v2 |
 | Reranker Model | ms-marco-MiniLM-L6-v2 |
