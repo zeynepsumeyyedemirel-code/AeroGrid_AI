@@ -193,6 +193,24 @@ Current validation scenario:
 
 ---
 
+## ✅ Validation Results
+
+Latest local validation run:
+
+```bash
+pytest
+
+Result:
+
+6 passed, 1 warning in 16.34s
+
+Validated components:
+
+Retrieval evaluation pipeline
+Core configuration tests
+RAG system components
+Local execution environment 
+
 # 💬 Example Queries
 
 Example maintenance questions:
