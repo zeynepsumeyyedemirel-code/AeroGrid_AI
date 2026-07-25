@@ -282,6 +282,137 @@ Services:
 | ChromaDB | Vector storage |
 | Ollama | Local LLM inference |
 
+## Run with Docker
+
+```bash
+docker compose up --build
+```
+
+---
+
+# 🔌 API
+
+## Health Check
+
+`GET /health`
+
+Example response:
+
+```json
+{
+  "status": "healthy",
+  "service": "AeroGrid AI"
+}
+```
+
+## Maintenance Query
+
+`POST /query`
+
+Example request:
+
+```json
+{
+  "question": "What is the corrective action for E-301 generator overheating?"
+}
+```
+
+Example response:
+
+```json
+{
+  "answer": "Grounded maintenance response",
+  "sources": [
+    "wind_turbine_maintenance.txt"
+  ]
+}
+```
+
+---
+
+# 🧰 Technology Stack
+
+| Component | Technology |
+|---|---|
+| Language | Python |
+| Backend | FastAPI |
+| Dashboard | Streamlit |
+| Vector Database | ChromaDB |
+| Embeddings | Sentence Transformers |
+| Reranking | Cross Encoder |
+| LLM Runtime | Ollama |
+| Model | Phi-3 |
+| Testing | Pytest |
+| Deployment | Docker |
+
+---
+
+# 🚀 Enterprise Design Principles
+
+## Reliability
+
+- Grounded generation
+- Source attribution
+- Context validation
+
+## Security
+
+- Local inference
+- Prompt injection protection
+- Privacy-first architecture
+
+## Scalability
+
+- Modular components
+- Persistent storage
+- Container deployment
+
+## Maintainability
+
+- Automated testing
+- Structured logging
+- Clean architecture
+
+---
+
+# 🔮 Future Roadmap
+
+## Phase 1 — Core RAG
+
+- ✅ Retrieval pipeline
+- ✅ Local LLM generation
+- ✅ Security layer
+
+## Phase 2 — Enterprise Platform
+
+- Authentication
+- Role-based technician access
+- Monitoring dashboard
+- Cloud deployment
+
+## Phase 3 — Industrial Intelligence
+
+- Sensor integration
+- Predictive maintenance
+- Anomaly detection
+
+---
+
+# 👩‍💻 Project Summary
+
+AeroGrid AI demonstrates an enterprise-grade offline Retrieval-Augmented Generation (RAG) architecture for renewable energy maintenance.
+
+The project combines:
+
+- Retrieval-Augmented Generation (RAG)
+- Semantic vector search
+- Neural reranking
+- Local AI inference
+- Safety controls
+- Containerized deployment
+
+to deliver reliable AI assistance for industrial field service operations.
+
 ---
 
 # ⚠️ Limitations
@@ -289,115 +420,3 @@ Services:
 - The assistant provides guidance only from available local documentation.
 - Missing documentation may result in INSUFFICIENT_CONTEXT responses.
 - High-risk procedures should always be verified against official manuals and site safety protocols.
-
-## Run with Docker 
-
-```bash
-docker compose up --build
-```
-
-🔌 API
-Health Check
-GET /health
-
-Example:
-
-{
-  "status": "healthy",
-  "service": "AeroGrid AI"
-}
-
-Maintenance Query
-POST /query
-
-Example:
-
-{
-  "question": "What is the corrective action for E-301 generator overheating?"
-}
-
-Response:
-
-{
-  "answer": "Grounded maintenance response",
-  "sources": [
-    "wind_turbine_maintenance.txt"
-  ]
-}
-🧰 Technology Stack
-Component	Technology
-Language	Python
-Backend	FastAPI
-Dashboard	Streamlit
-Vector Database	ChromaDB
-Embeddings	Sentence Transformers
-Reranking	Cross Encoder
-LLM Runtime	Ollama
-Model	Phi-3
-Testing	Pytest
-Deployment	Docker
-🎯 Example Scenario
-
-Technician question:
-
-What is the SOP for fault code E-301?
-
-AeroGrid AI:
-
-Retrieves relevant maintenance documentation
-Applies neural reranking
-Validates available information
-Generates grounded offline guidance
-
-If documentation is insufficient:
-
-INSUFFICIENT_CONTEXT:
-The official documentation does not contain enough information.
-🚀 Enterprise Design Principles
-Reliability
-Grounded generation
-Source attribution
-Context validation
-Security
-Local inference
-Prompt injection protection
-Privacy-first architecture
-Scalability
-Modular components
-Persistent storage
-Container deployment
-Maintainability
-Automated testing
-Structured logging
-Clean architecture
-🔮 Future Roadmap
-Phase 1 — Core RAG
-
-✅ Retrieval pipeline
-✅ Local LLM generation
-✅ Security layer
-
-Phase 2 — Enterprise Platform
-Authentication
-Role-based technician access
-Monitoring dashboard
-Cloud deployment
-Phase 3 — Industrial Intelligence
-Sensor integration
-Predictive maintenance
-Anomaly detection
-👩‍💻 Project Summary
-
-AeroGrid AI demonstrates an enterprise-grade offline RAG architecture for renewable energy maintenance.
-
-The project combines:
-
-Retrieval-Augmented Generation
-Vector search
-Neural reranking
-Local AI inference
-Safety controls
-Containerized deployment
-
-to deliver reliable AI assistance for industrial field service operations.
-
