@@ -184,7 +184,7 @@ Generator Overheating Fault
 
 | Metric | Result |
 |---|---|
-| Evaluation Dataset | 15 Synthetic Maintenance Protocols |
+| Evaluation Dataset | 15+ Synthetic Industrial Maintenance Protocols (Wind Turbine Faults, Solar Troubleshooting, Safety Procedures) |
 | Retrieval Precision@3 | 100% |
 | Unit Tests | 6/6  Passed |
 | Average Query Latency | ~450ms |
