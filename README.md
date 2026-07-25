@@ -244,8 +244,6 @@ Example maintenance questions:
 
 # 🖥️ Dashboard Demo
 
-![AeroGrid AI Dashboard](https://github.com/zeynepsumeyyedemirel-code/AeroGrid_AI/blob/main/screenshots/aerogrid-dashboard-demo.png)
-
 AeroGrid AI provides an offline technician assistant interface for renewable energy field operations.
 
 Technicians can submit maintenance questions, retrieve relevant documentation context, and receive grounded AI responses generated from the local knowledge base.
