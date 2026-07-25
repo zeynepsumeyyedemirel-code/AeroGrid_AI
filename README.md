@@ -202,12 +202,11 @@ Technicians can submit maintenance questions and receive grounded responses with
 
 # 🗂️ Project Structure
 
-```text
 AeroGrid_AI/
 
-├── app/
+├── src/
 │   ├── api/
-│   │   └── API services
+│   │   └── FastAPI application
 │   │
 │   ├── core/
 │   │   └── Configuration and utilities
@@ -216,24 +215,32 @@ AeroGrid_AI/
 │   │   └── Document processing pipeline
 │   │
 │   ├── retrieval/
-│   │   └── ChromaDB retrieval and reranking
+│   │   ├── retriever.py
+│   │   └── ChromaDB retrieval pipeline
 │   │
-│   ├── llm/
+│   ├── generation/
 │   │   └── Local LLM integration
 │   │
 │   ├── security/
-│   │   └── Safety guardrails
+│   │   └── Prompt injection guardrails
 │   │
 │   └── evaluation/
-│       └── RAG evaluation tests
+│       └── RAG evaluation framework
 │
-├── data/
-│   ├── raw/
-│   └── chroma_db/
+├── chroma_db/
+│   └── Persistent vector database
+│
+├── docs/
+│   └── Maintenance documentation
+│
+├── screenshots/
+│   └── Dashboard screenshots
 │
 ├── tests/
 │
 ├── dashboard.py
+├── app.py
+├── retriever.py
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt
