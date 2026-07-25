@@ -130,18 +130,23 @@ Grounded Maintenance Response
 
 # 🧠 Local AI Generation
 
-AeroGrid AI uses:
+AeroGrid AI follows a local-first AI architecture aligned with Microsoft Foundry Local principles.
 
+The system uses:
 
-Ollama + Phi-3
-
+- **Model:** Phi-3
+- **Local Runtime:** Ollama
+- **Architecture:** Local-first RAG architecture aligned with Microsoft Foundry Local principles
 
 Advantages:
 
 - Offline inference
 - No external API dependency
 - Data privacy
-- Industrial deployment compatibility
+- Local document processing
+- Enterprise edge deployment compatibility
+
+This architecture enables secure AI assistance for renewable energy field technicians by keeping operational knowledge and inference workflows locally controlled.
 
 ---
 
