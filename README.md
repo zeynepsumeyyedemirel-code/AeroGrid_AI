@@ -1,6 +1,6 @@
 ![CI](https://github.com/zeynepsumeyyedemirel-code/AeroGrid_AI/actions/workflows/ci.yml/badge.svg)
 
-# ⚡ AeroGrid AI — Offline Field Service Assistant
+# ⚡ AeroGrid AI — Offline RAG Assistant for Renewable Energy Maintenance
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/zeynepsumeyyedemirel-code/AeroGrid_AI/main/screenshots/aerogrid-dashboard-demo.png" width="800">
