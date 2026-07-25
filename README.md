@@ -202,8 +202,9 @@ Example maintenance questions:
 - How should an inverter overtemperature issue be handled?
 - What are the LOTO requirements for field intervention?
 
-
 # 🖥️ Dashboard Demo
+
+![AeroGrid AI Dashboard](screenshots/aerogrid-dashboard-demo.png)
 
 AeroGrid AI provides an offline technician assistant interface for renewable energy field operations.
 
