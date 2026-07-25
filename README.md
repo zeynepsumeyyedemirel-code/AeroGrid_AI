@@ -4,6 +4,24 @@
 
 AeroGrid AI is an enterprise-oriented **offline Retrieval-Augmented Generation (RAG) assistant** designed for renewable energy field maintenance operations.
 
+## ⚡ Quick Start
+
+### Requirements
+
+- Python 3.11+
+- Docker Desktop
+- Ollama
+
+### Run
+
+```bash
+git clone https://github.com/zeynepsumeyyedemirel-code/AeroGrid_AI.git
+
+cd AeroGrid_AI
+
+docker compose up --build
+```
+
 The system helps wind turbine and solar technicians retrieve verified maintenance knowledge and generate **source-grounded AI guidance** using local Large Language Models.
 
 AeroGrid AI combines:
