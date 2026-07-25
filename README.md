@@ -202,6 +202,7 @@ Technicians can submit maintenance questions and receive grounded responses with
 
 # 🗂️ Project Structure
 
+```text
 AeroGrid_AI/
 
 ├── src/
@@ -231,7 +232,7 @@ AeroGrid_AI/
 │   └── Persistent vector database
 │
 ├── docs/
-│   └── Maintenance documentation
+│   │── Maintenance documentation
 │
 ├── screenshots/
 │   └── Dashboard screenshots
@@ -245,6 +246,7 @@ AeroGrid_AI/
 ├── docker-compose.yml
 ├── requirements.txt
 └── README.md
+```
 
 ---
 
