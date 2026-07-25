@@ -240,7 +240,7 @@ Example maintenance questions:
 
 # 🖥️ Dashboard Demo
 
-![AeroGrid AI Dashboard](screenshots/aerogrid-dashboard-demo.png)
+![AeroGrid AI Dashboard](https://raw.githubusercontent.com/zeynepsumeyyedemirel-code/AeroGrid_AI/main/screenshots/aerogrid-dashboard-demo.png)
 
 AeroGrid AI provides an offline technician assistant interface for renewable energy field operations.
 
