@@ -6,7 +6,7 @@ from retriever import retrieve_context, build_vector_store, DOCS_DIR, LOG_FILE
 
 logger = logging.getLogger("AeroGrid_Dashboard")
 
-OLLAMA_URL = "http://host.docker.internal:11434/api/generate"
+OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL_NAME = "phi3"
 REQUEST_TIMEOUT = 45 # seconds
 
@@ -106,10 +106,10 @@ IMPORTANT:
 - Do not use outside knowledge.
 - Never mention match scores, similarity scores, chunks, or retrieval metadata.
 - Never mention the retrieval process.
-- Do not create procedural steps unless the documentation explicitly provides them.
-- If information is missing, say:
-INSUFFICIENT_CONTEXT: The official documentation does not contain enough information to provide procedural steps.
-- Always cite source document name and page number. 
+- Use documented corrective actions and troubleshooting information when available.
+- Do not invent procedures or add information that is not present in the documentation.
+- Only return INSUFFICIENT_CONTEXT when the documentation contains no relevant information for the technician question.
+- Always cite source document name and page number.
 
 DOCUMENTATION CONTEXT:
 {context_str}
@@ -120,14 +120,13 @@ TECHNICIAN QUESTION:
 Answer format rules:
 - Start directly with the answer.
 - Never mention match scores, similarity scores, chunks, or retrieval metadata.
-- Never mention "According to" or describe the retrieval process.
-- Do not combine information from multiple documents into a new procedure.
-- Do not create procedural steps unless the documentation explicitly provides them.
-- If the documentation only mentions a corrective action without detailed steps, state:
-INSUFFICIENT_CONTEXT: The official documentation does not contain enough information to provide procedural steps.
-- Only cite the exact source filename and page number.
-- If returning INSUFFICIENT_CONTEXT, output only the INSUFFICIENT_CONTEXT statement and the exact source citation at the end.
-- Do not repeat the fault code title or document summary before INSUFFICIENT_CONTEXT.
+- Never describe the retrieval process.
+- Use only information available in the documentation context.
+- If the documentation provides corrective actions, summarize them clearly.
+- Do not invent procedures or add technical details that are not present in the documentation.
+- If the documentation contains partial information, explain the available information and advise verification with official manuals when necessary.
+- Only return INSUFFICIENT_CONTEXT when no relevant documentation exists for the technician question.
+- Always cite the exact source filename and page number.
 """
 
             
