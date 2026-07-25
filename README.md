@@ -226,37 +226,39 @@ AeroGrid_AI/
 
 ├── src/
 │   ├── api/
-│   │   └── FastAPI application
+│   │   └── Backend API services
 │   │
 │   ├── core/
-│   │   └── Configuration and utilities
+│   │   └── Configuration and shared utilities
 │   │
 │   ├── ingestion/
-│   │   └── Document processing pipeline
+│   │   └── Document processing and indexing pipeline
 │   │
 │   ├── retrieval/
-│   │   ├── retriever.py
-│   │   └── ChromaDB retrieval pipeline
+│   │   └── ChromaDB retrieval and reranking pipeline
 │   │
 │   ├── generation/
-│   │   └── Local LLM integration
+│   │   └── Local LLM generation layer
 │   │
 │   ├── security/
-│   │   └── Prompt injection guardrails
+│   │   └── Prompt injection protection and validation
 │   │
 │   └── evaluation/
 │       └── RAG evaluation framework
 │
-├── chroma_db/
-│   └── Persistent vector database
-│
 ├── docs/
-│   │── Maintenance documentation
+│   ├── wind_turbine/
+│   ├── solar_panel/
+│   └── safety/
+│
+├── chroma_db/
+│   └── Persistent vector database storage
 │
 ├── screenshots/
-│   └── Dashboard screenshots
+│   └── Dashboard demonstrations
 │
 ├── tests/
+│   └── Automated validation tests
 │
 ├── dashboard.py
 ├── app.py
@@ -265,6 +267,7 @@ AeroGrid_AI/
 ├── docker-compose.yml
 ├── requirements.txt
 └── README.md
+
 ```
 
 ---
