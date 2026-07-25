@@ -216,8 +216,6 @@ The dashboard demonstrates:
 - Retrieved source context visibility
 - Local LLM inference with no cloud dependency
 
-![AeroGrid AI Dashboard](screenshots/aerogrid-dashboard-demo.png)
-
 ---
 
 # 🗂️ Project Structure
