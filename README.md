@@ -2,6 +2,10 @@
 
 # ⚡ AeroGrid AI — Offline Field Service Assistant
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/zeynepsumeyyedemirel-code/AeroGrid_AI/main/screenshots/aerogrid-dashboard-demo.png" width="800">
+</p>
+
 AeroGrid AI is an enterprise-oriented **offline Retrieval-Augmented Generation (RAG) assistant** designed for renewable energy field maintenance operations.
 
 ## ⚡ Quick Start
