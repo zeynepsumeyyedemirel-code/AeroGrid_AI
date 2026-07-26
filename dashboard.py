@@ -6,7 +6,11 @@ from retriever import retrieve_context, build_vector_store, DOCS_DIR, LOG_FILE
 
 logger = logging.getLogger("AeroGrid_Dashboard")
 
-OLLAMA_URL = "http://host.docker.internal:11434/api/generate"
+OLLAMA_URL = os.getenv(
+    "OLLAMA_URL",
+    "http://host.docker.internal:11434/api/generate"
+)
+
 MODEL_NAME = "phi3"
 REQUEST_TIMEOUT = 45 # seconds
 
