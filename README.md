@@ -35,14 +35,24 @@ Inspired by offline RAG architectures such as Microsoft Foundry Local reference 
 
 ### Run
 
+Clone the repository:
+
 ```bash
 git clone https://github.com/zeynepsumeyyedemirel-code/AeroGrid_AI.git
 
 cd AeroGrid_AI
-
-docker compose up --build
 ```
 
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+Run with Docker:
+
+```bash
+docker compose up --build
+```
 The system helps wind turbine and solar technicians retrieve verified maintenance knowledge and generate **source-grounded AI guidance** using local Large Language Models.
 
 AeroGrid AI combines:
