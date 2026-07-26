@@ -359,6 +359,12 @@ docker compose up --build
 
 # 🔌 API
 
+AeroGrid AI includes a FastAPI backend layer for API-based integration.
+
+The API can be started separately using:
+
+`uvicorn src.api.main:app --host 0.0.0.0 --port 8000`
+
 ## Health Check
 
 `GET /health`
