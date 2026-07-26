@@ -61,12 +61,15 @@ def query(request: QueryRequest):
             "sources": []
         }
 
+    context_text = "\n\n".join(
+        item["content"]
+        for item in context
+    )
 
     answer = llm.generate(
         question,
-        context
+        context_text
     )
-
 
     sources = [
         item["source"]
