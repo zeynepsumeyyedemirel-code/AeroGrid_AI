@@ -2,6 +2,17 @@
 
 # ⚡ AeroGrid AI — Offline RAG Assistant for Renewable Energy Maintenance
 
+## 🛠️ Tech Stack
+
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![RAG](https://img.shields.io/badge/RAG-Retrieval--Augmented%20Generation-green)
+![ChromaDB](https://img.shields.io/badge/Vector%20Database-ChromaDB-orange)
+![Sentence Transformers](https://img.shields.io/badge/Embeddings-Sentence%20Transformers-purple)
+![Ollama](https://img.shields.io/badge/Local%20LLM-Ollama-black)
+![FastAPI](https://img.shields.io/badge/API-FastAPI-red)
+![Docker](https://img.shields.io/badge/Deployment-Docker-blue)
+![Pytest](https://img.shields.io/badge/Testing-Pytest-green)
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/zeynepsumeyyedemirel-code/AeroGrid_AI/main/screenshots/aerogrid-dashboard-demo.png" width="800">
 </p>
