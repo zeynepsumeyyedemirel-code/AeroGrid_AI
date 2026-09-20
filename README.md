@@ -2,6 +2,8 @@
 
 # ⚡ AeroGrid AI — Offline RAG Assistant for Renewable Energy Maintenance
 
+**Live demo (HTML/CSS/JS interface, demo mode):** https://zeynepsumeyyedemirel-code.github.io/AeroGrid_AI/frontend/
+
 ## 🛠️ Tech Stack
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
